@@ -105,6 +105,16 @@
     margin: 10px 0;
   }
 
+  .copy-btn {
+  font-size: 13px;
+  color: #a1a1aa;
+  transition: 0.2s;
+}
+
+.copy-btn:hover {
+  color: white;
+}
+
     @keyframes blink {
       0% { opacity: .2; }
       20% { opacity: 1; }
@@ -250,6 +260,18 @@
             <div class="ai-message bg-zinc-900 border border-zinc-800 rounded-2xl px-5 py-4 text-zinc-200 overflow-x-auto">
               ${marked.parse(message)}
             </div>
+
+            <div class="flex items-center gap-3 mt-4">
+
+  <button
+    class="copy-btn text-xs text-zinc-400 hover:text-white transition"
+    onclick='copyMessage(this)'
+    data-message=${JSON.stringify(message)}
+  >
+    <i class="fa-solid fa-copy"></i>
+  </button>
+
+</div>
           </div>
         `;
       }
@@ -347,6 +369,22 @@
     });
 
     const clearBtn = document.getElementById("clearChat");
+
+function copyMessage(button) {
+
+  const message = button.dataset.message;
+
+  navigator.clipboard.writeText(message);
+
+  const originalText = button.innerText;
+
+  button.innerText = "Copied";
+
+  setTimeout(() => {
+    button.innerText = originalText;
+  }, 1500);
+
+}
 
 clearBtn.addEventListener("click", () => {
 

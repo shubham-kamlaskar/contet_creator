@@ -10,3 +10,4 @@ playwright
 lxml
 quart
 quart[dotenv]
+pymongo

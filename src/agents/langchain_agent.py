@@ -24,7 +24,7 @@ class AgentProvider:
         self.agent = None
         self.session_id = "81d9c347-f032-455e-9805-77e6e9198abc"
 
-    async def get_agent_client(self):
+    def get_agent_client(self):
         try:
             agent = create_agent(
                     model=llm_provider.llm_client(),
@@ -41,27 +41,39 @@ class AgentProvider:
             logger.error(f"Error initializing agent client: {str(e)}")
             raise Exception(f"Error initializing agent client: {str(e)}")
         
-    async def get_agent_response(self, user_query: str):
+    def get_agent_response(self, user_query: str):
         try:
-            agent = await self.get_agent_client()
+            agent = self.get_agent_client()
                 
-            response = await agent.ainvoke(
+            output = agent.invoke(
                 {
                     "messages": [{"role": "user", "content": user_query}],
                 },
                     config ={"configurable": {"thread_id": "self.session_id"}},
 
             )
-            if response:
-                messages = response.get("messages", [])
+            if output:
+                messages = output.get("messages", [])
 
                 response_call = messages[-1] if messages else None
 
                 answer = response_call.content
+                tool_calls = response_call.tool_calls
+                metadata = response_call.response_metadata
+                llm_model = metadata.get('model', '')
+                token_count = response_call.usage_metadata
             else:
                 answer =  "Failed to generate any response."
                 
-            return answer   
+            response = {
+                "user_query": user_query,
+                "response": answer,
+                "tool_used": tool_calls,
+                "llm_model": llm_model,
+                "token_count": token_count
+            }
+                
+            return response   
 
         except Exception as e:
             logger.error(f"Error getting agent response: {str(e)}")

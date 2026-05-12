@@ -10,13 +10,14 @@ class CachingMechanism:
                                  "good afternoon": "Hello! How can I help you today?"}
                                    
         
-    async def check_cached_response(self, user_query):
+    def check_cached_response(self, user_query):
         try:
-            response = None
+            response = {}
             for i,v  in self.frequent_questions.items():
                 if user_query.lower().strip() == i:
-                    response = v
+                    response['response'] = v
                     break
+            response['user_query'] = user_query
             return response
         except Exception as e:
             logger.error(f"An error occured in check_cached_response caller: {str(e)}")

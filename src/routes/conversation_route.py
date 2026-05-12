@@ -1,0 +1,28 @@
+from flask import render_template, request, jsonify, Blueprint
+
+from src.processor.conversation_flow_processor import internal_conversations
+from src.util.log_adapter import logger
+
+conversation_bp = Blueprint("conversation_bp", __name__, static_folder="static", template_folder="template")
+
+
+@conversation_bp.route("/", methods= ['GET'])
+def home():
+    try:
+        return render_template("chat.html")
+    except Exception as e:
+        logger.error(f"An error occured in home caller: {str(e)}")
+        raise Exception(f"An error occured in home caller: {str(e)}")
+
+@conversation_bp.route("/chat", methods=['POST'])
+def chat():
+    try:
+        response = internal_conversations(request)
+
+        return jsonify({
+            "status": "success",
+            "reply": response.get('response', '')
+        }), 200
+    except Exception as e:
+        logger.error(f"An error occured in chat caller: {str(e)}")
+        raise Exception(f"An error occured in chat caller: {str(e)}")

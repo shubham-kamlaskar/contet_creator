@@ -26,7 +26,7 @@ class InternetSearch(BaseModel):
 def internet_search(requirements: str) -> list:
     """This tool is useful to fetch information from internet,when user needs real time or latest information"""
     search = DuckDuckGoSearchResults(output_format="json", num_results=3)
-    content = search.invoke(requirements)
+    content = search.ainvoke(requirements)
     return content
 
 class LinkedinAutomation(BaseModel):
