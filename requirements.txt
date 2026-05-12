@@ -1,0 +1,12 @@
+langchain
+langgraph
+flask
+langchain-ollama
+python-dotenv
+ddgs
+langchain-community
+langchain-google-community[gmail]
+playwright
+lxml
+quart
+quart[dotenv]
