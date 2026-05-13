@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Modern AI Chat UI</title>
 
-
+<!-- Font Awesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- markdown parser -->
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
@@ -251,30 +252,41 @@
 
       } else {
 
-        wrapper.innerHTML = `
-          <div class="flex items-start gap-3">
-            <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center font-bold">
-              AI
-            </div>
+  wrapper.innerHTML = `
+    <div class="flex items-start gap-3">
+      <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center font-bold">
+        AI
+      </div>
 
-            <div class="ai-message bg-zinc-900 border border-zinc-800 rounded-2xl px-5 py-4 text-zinc-200 overflow-x-auto">
-              ${marked.parse(message)}
-            </div>
+      <div class="flex-1">
+        <div class="ai-message bg-zinc-900 border border-zinc-800 rounded-2xl px-5 py-4 text-zinc-200 overflow-x-auto">
+          ${marked.parse(message)}
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="flex items-center gap-3 mt-2 ml-1">
+          <button
+            class="copy-btn flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition"
+            onclick='copyMessage(this)'
+            data-message='${message.replace(/'/g, "&#39;")}'
+          >
+            <i class="fa-regular fa-copy"></i>
+            <span>Copy</span>
+          </button>
 
-            <div class="flex items-center gap-3 mt-4">
-
-  <button
-    class="copy-btn text-xs text-zinc-400 hover:text-white transition"
-    onclick='copyMessage(this)'
-    data-message=${JSON.stringify(message)}
-  >
-    <i class="fa-solid fa-copy"></i>
-  </button>
-
-</div>
-          </div>
-        `;
-      }
+          <button
+            class="copy-btn flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition"
+            onclick='shareMessage(this)'
+            data-message='${message.replace(/'/g, "&#39;")}'
+          >
+            <i class="fa-solid fa-share-nodes"></i>
+            <span>Share</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
 
       chatContainer.appendChild(wrapper);
 
@@ -371,21 +383,56 @@
     const clearBtn = document.getElementById("clearChat");
 
 function copyMessage(button) {
-
   const message = button.dataset.message;
-
-  navigator.clipboard.writeText(message);
-
-  const originalText = button.innerText;
-
-  button.innerText = "Copied";
-
-  setTimeout(() => {
-    button.innerText = originalText;
-  }, 1500);
-
+  
+  navigator.clipboard.writeText(message).then(() => {
+    const textSpan = button.querySelector('span');
+    const icon = button.querySelector('i');
+    const originalText = textSpan.innerText;
+    
+    // Change to checkmark
+    icon.className = "fa-solid fa-check";
+    textSpan.innerText = "Copied";
+    
+    setTimeout(() => {
+      icon.className = "fa-regular fa-copy";
+      textSpan.innerText = originalText;
+    }, 2000);
+  }).catch(err => {
+    console.error('Failed to copy:', err);
+  });
 }
 
+// share message functionality
+function shareMessage(button) {
+  const message = button.dataset.message;
+  
+  if (navigator.share) {
+    // Use native share if available (mobile)
+    navigator.share({
+      title: 'AI Assistant Response',
+      text: message
+    }).catch(err => {
+      console.log('Share cancelled or failed:', err);
+    });
+  } else {
+    // Fallback: copy to clipboard
+    navigator.clipboard.writeText(message).then(() => {
+      const textSpan = button.querySelector('span');
+      const icon = button.querySelector('i');
+      const originalText = textSpan.innerText;
+      
+      icon.className = "fa-solid fa-check";
+      textSpan.innerText = "Copied";
+      
+      setTimeout(() => {
+        icon.className = "fa-solid fa-share-nodes";
+        textSpan.innerText = originalText;
+      }, 2000);
+    });
+  }
+}
+// clear button
 clearBtn.addEventListener("click", () => {
 
   const confirmClear = confirm("Clear all chats?");

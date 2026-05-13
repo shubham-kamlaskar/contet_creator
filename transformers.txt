@@ -1,0 +1,60 @@
+# Transformer Architecture: A Comprehensive Guide
+
+## 1. Introduction
+Transformers are a neural network architecture introduced in the 2017 paper "Attention Is All You Need" by Vaswani et al. They revolutionized NLP and are now foundational to GenAI models.
+
+## 2. Key Components
+
+### Self-Attention Mechanism
+- Allows model to weigh importance of different words in a sequence
+- Query, Key, Value vectors compute attention scores
+- Formula: Attention(Q,K,V) = softmax(QK^T/√d_k)V
+
+### Positional Encoding
+- Adds position information to input embeddings
+- Uses sine/cosine functions for absolute positions
+- Enables model to understand word order
+
+### Encoder-Decoder Structure
+- Encoder: Stacks of multi-head attention layers
+- Decoder: Similar but with masking for autoregressive generation
+- Feed-forward networks between attention layers
+
+## 3. How It Works
+1. Input tokens → Embedding + Positional Encoding
+2. Multi-head self-attention captures relationships
+3. Feed-forward networks process information
+4. Output tokens generated via softmax
+
+## 4. Applications
+- Language translation (BERT, GPT)
+- Text generation
+- Sentiment analysis
+- Question answering
+- Image recognition (Vision Transformers)
+
+## 5. Advantages
+- Parallel processing (no RNN sequential dependency)
+- Captures long-range dependencies
+- Scalable to massive datasets
+- Transfer learning friendly
+
+## 6. Challenges
+- High computational cost
+- Memory intensive for large contexts
+- Requires careful hyperparameter tuning
+
+## 7. Modern Variants
+- BERT (Bidirectional Encoder)
+- GPT (Generative Pre-trained Transformer)
+- T5 (Text-to-Text)
+- Vision Transformers (ViT)
+
+## 8. Practical Takeaways
+- Start with pre-trained models
+- Use attention visualization for debugging
+- Consider hybrid architectures for efficiency
+- Monitor attention patterns for interpretability
+
+---
+*Document created for Data Science & GenAI professionals*

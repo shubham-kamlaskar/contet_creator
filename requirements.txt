@@ -11,3 +11,4 @@ lxml
 quart
 quart[dotenv]
 pymongo
+linkedin-api

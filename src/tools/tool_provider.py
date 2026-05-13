@@ -3,21 +3,12 @@ from pydantic import BaseModel, Field
 from typing import Optional, Any
 from langchain_community.tools import DuckDuckGoSearchResults
 from langchain_community.agent_toolkits import PlayWrightBrowserToolkit
-from langchain_community.tools.playwright.utils import (
-    create_sync_playwright_browser,
-)
+from langchain_community.tools.playwright.utils import create_sync_playwright_browser
 from src.agents.ollama_llm_provider import LLMProvider
+from src.api.linkedin_api_methods import LinkedInAPI
 
 llm_provider = LLMProvider()
-
-class CreateContent(BaseModel):
-    requirements: Optional[str] = Field(description="User requirements to generate a well structured and viral linkedin post")
-    
-@tool("create_content", args_schema=CreateContent)
-def create_content(requirements: str):
-    """This tool is useful in creating a viral linkedin post based on the user requirements in a pre-defined and structured format. """
-    content = f"Based on the given {requirements}: we are writing the content"
-    return {"response": content}
+linkedin_api = LinkedInAPI()
 
 class InternetSearch(BaseModel):
     requirements: Optional[str] = Field(description="User requirement to related to real time or latest information.")
@@ -29,40 +20,43 @@ def internet_search(requirements: str) -> list:
     content = search.ainvoke(requirements)
     return content
 
-class LinkedinAutomation(BaseModel):
-    request: Optional[str] = Field(description="User request related to linkedin.")
+# sync_browser = create_sync_playwright_browser()
+# toolkit = PlayWrightBrowserToolkit.from_browser(
+#     sync_browser=sync_browser
+# )
+# # Get tools
+# playwright_tools = toolkit.get_tools()
 
-@tool('linkedinautomation', args_schema=LinkedinAutomation)
-def linkedinautomation(request: str):
-    """This tool is useful to draft the  post, send dms, send connection request, job tracking, lead enrichment, crm auto reply and etc."""
-    return {"response": f"Processing LinkedIn request: {request}"}
+class FetchLinkedinMetadata(BaseModel):
+    user_query: Optional[str] = Field(description="User query related to fetch linkedin account details.")
 
-sync_browser = create_sync_playwright_browser()
-toolkit = PlayWrightBrowserToolkit.from_browser(
-    sync_browser=sync_browser
-)
-# Get tools
-playwright_tools = toolkit.get_tools()
+@tool("fetch_linkedin_metadata", args_schema=FetchLinkedinMetadata)
+def fetch_linkedin_metadata(user_query: str):
+    """This tool is used to fetch information of linkedin user account."""
+    profile_details = linkedin_api.get_profile_details()
+    return {"response": profile_details}
+
+class PostContentOnLinkedin(BaseModel):
+    content: Optional[str] = Field(description="Content generated based on the user requirements as per linkedin formatting.")
+
+@tool("post_content_on_linkedin", args_schema=PostContentOnLinkedin)
+def post_content_on_linkedin(content: str):
+    """This tool is used to post the content created based on user requirements on user linkedin account."""
+    linkedin_api.post_share(text=content)
+    return {"response": "Post successfully posted on your Linkedin profile. "}
 
 def create_document(file_name: str, content: str):
     with open(f"{file_name}.txt", "w", encoding="utf-8") as file:
         file.write(f"{content}")
         
 class UpdateContentInDocument(BaseModel):
-    user_query: Optional[str] = Field(description="User query related to document creation on the given topic or information")
+    content: Optional[str] = Field(description="Content generated based on the user requirements.")
     file_name: Optional[str] = Field(description="Name of the file")
 
 @tool('update_content_in_document', args_schema=UpdateContentInDocument)
-def update_content_in_document(user_query: str, file_name: str):
-    """This function is used to create a .txt document based on the user requirements."""
-    llm = llm_provider.llm_client()
-    response = llm.invoke(user_query)
-    if response:
-        messages = response.get("messages", [])
-        response_call = messages[-1] if messages else None
-        answer = response_call.content
-        
-        create_document(file_name, answer)
+def update_content_in_document(content: str, file_name: str):
+    """This tool is used to create a .txt document based on the user requirements to create a document."""
+    create_document(file_name, content)
     return {"response": f"A file is created with name {file_name}, as per your request."}
 
-getTools = [internet_search]
+getTools = [internet_search, update_content_in_document, post_content_on_linkedin, fetch_linkedin_metadata]
