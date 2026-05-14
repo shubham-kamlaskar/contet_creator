@@ -2,6 +2,7 @@ from src.guardrails.caching_provider import CachingMechanism
 from src.agents.langchain_agent import AgentProvider
 from src.util.log_adapter import logger
 from src.database.provider.conversation_provider import update_conversations_in_db
+from src.util.prompt_evaluator import calculate_total_token_count
 agent = AgentProvider()
 caching = CachingMechanism()
 
@@ -12,12 +13,14 @@ def internal_conversations(request):
         data = request.get_json()
         if data:
             user_query = data.get("message", "")
+            token_used = data.get('tokens_used', 0)
             response: dict = caching.check_cached_response(user_query)
             
             if not response.get("response"):
                 response: dict = agent.get_agent_response(user_query)
 
-                
+        response['token_count'] = calculate_total_token_count(existing_tokens=token_used, total_tokens=response['token_count'])
+        
         update_conversations_in_db(response)
         return response
     except Exception as e:

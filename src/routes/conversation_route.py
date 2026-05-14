@@ -9,7 +9,7 @@ conversation_bp = Blueprint("conversation_bp", __name__, static_folder="static",
 @conversation_bp.route("/", methods= ['GET'])
 def home():
     try:
-        return render_template("chat.html")
+        return render_template("chat_v1.html")
     except Exception as e:
         logger.error(f"An error occured in home caller: {str(e)}")
         raise Exception(f"An error occured in home caller: {str(e)}")
@@ -21,7 +21,8 @@ def chat():
 
         return jsonify({
             "status": "success",
-            "reply": response.get('response', '')
+            "reply": response.get('response', ''),
+            "tokens_used": response.get('token_count', {}).get('total_tokens', 0)
         }), 200
     except Exception as e:
         logger.error(f"An error occured in chat caller: {str(e)}")

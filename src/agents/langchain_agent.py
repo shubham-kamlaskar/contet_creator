@@ -8,6 +8,7 @@ from langgraph.checkpoint.memory import InMemorySaver
 
 from src.util.log_adapter import logger
 from src.prompt.prompt_store import Prompt
+from src.models.conversation_object import IntervisionObject
 from src.tools.tool_provider import getTools
 from src.agents.ollama_llm_provider import LLMProvider
 from src.tools.tool_error import handle_tool_errors
@@ -57,12 +58,20 @@ class AgentProvider:
                     config ={"configurable": {"thread_id": "self.session_id"}},
                     version="v2"
             )
-            if output:
+            return self._generated_response(user_query, output)
+            
+        except Exception as e:
+            logger.error(f"Error getting agent response: {str(e)}")
+            raise Exception(f"Error getting agent response: {str(e)}")
+        
+    
+    def _generated_response(self, user_query, output):
+        if output:
                 is_interrupts = output.interrupts
                 human_intervisions = []
                 if is_interrupts:
-                    id = is_interrupts.id
-                    interrupt_id = is_interrupts.interrupt_id
+                    # id = is_interrupts.id
+                    # interrupt_id = is_interrupts.interrupt_id
                     for i in is_interrupts:
                         value = i.value
                         actions_requests = value.get('action_requests', [])
@@ -75,19 +84,24 @@ class AgentProvider:
                             for review in review_configs:
                                 allowed_decisions = review.get('allowed_decisions')
                                 action_name = review.get('action_name')
-                        human_intervisions.append({"id": id, "interrupt_id": interrupt_id, "content": content, "allowed_actions": allowed_decisions, "action_name": action_name })
+                        human_intervisions.append(IntervisionObject(
+                            content = content,
+                            allowed_actions= allowed_decisions,
+                            action_name= action_name
+                        ))
                         
                     response = {
                         "user_query": user_query,
-                        "response": human_intervisions[0]['content'],
+                        "response": human_intervisions[0].content,
                         "is_intervisions": True,
-                        "tool_used": human_intervisions[0]['action_name'],
+                        "tool_used": [human_intervisions[0].action_name],
                         "llm_model": "qwen3.5",
                         "token_count": {}
                     }
                 
                 else:
-                    messages = output.get("messages", [])
+                    value = output.value
+                    messages = value.get("messages", [])
                     if messages:
 
                         response_call = messages[-1] if messages else None
@@ -109,8 +123,4 @@ class AgentProvider:
                         "token_count": token_count
                     }
                 
-            return response   
-
-        except Exception as e:
-            logger.error(f"Error getting agent response: {str(e)}")
-            raise Exception(f"Error getting agent response: {str(e)}")
+        return response   

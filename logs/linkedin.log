@@ -1,0 +1,15 @@
+2026-05-14 14:28:03,713 - ERROR - Error getting agent response: 'tuple' object has no attribute 'id'
+2026-05-14 14:28:03,713 - ERROR - An error occured in internal_conversations caller: Error getting agent response: 'tuple' object has no attribute 'id'
+2026-05-14 14:28:03,713 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: Error getting agent response: 'tuple' object has no attribute 'id'
+2026-05-14 14:50:31,665 - ERROR - An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used
+  Input should be a valid list [type=list_type, input_value='post_content_on_linkedin', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/list_type
+2026-05-14 14:50:31,668 - ERROR - An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used
+  Input should be a valid list [type=list_type, input_value='post_content_on_linkedin', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/list_type
+2026-05-14 14:50:31,668 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used
+  Input should be a valid list [type=list_type, input_value='post_content_on_linkedin', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/list_type

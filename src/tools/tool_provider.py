@@ -41,12 +41,13 @@ class PostContentOnLinkedin(BaseModel):
 
 @tool("post_content_on_linkedin", args_schema=PostContentOnLinkedin)
 def post_content_on_linkedin(content: str):
-    """This tool is used to post the content created based on user requirements on user linkedin account."""
+    """This tool is used to post the content created based on user requirements on user linkedin account.
+    Strictly do not post the content if not requested to do so."""
     linkedin_api.post_share(text=content)
     return {"response": "Post successfully posted on your Linkedin profile. "}
 
 def create_document(file_name: str, content: str):
-    with open(f"{file_name}.txt", "w", encoding="utf-8") as file:
+    with open(f"generated_docs/{file_name}", "w", encoding="utf-8") as file:
         file.write(f"{content}")
         
 class UpdateContentInDocument(BaseModel):
@@ -55,7 +56,8 @@ class UpdateContentInDocument(BaseModel):
 
 @tool('update_content_in_document', args_schema=UpdateContentInDocument)
 def update_content_in_document(content: str, file_name: str):
-    """This tool is used to create a .txt document based on the user requirements to create a document."""
+    """This tool is used to create a .txt document, when a user specifically mention to create a document. 
+    Strictly do not create a document if not requested to do so."""
     create_document(file_name, content)
     return {"response": f"A file is created with name {file_name}, as per your request."}
 
