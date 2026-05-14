@@ -21,6 +21,7 @@ def update_conversations_in_db(data: dict):
                 llm_model= data.get('llm_model', ''),
                 tool_used=  data.get('tool_used', []),
                 token_count= data.get('token_count', {}),
+                current_token_count = data.get('current_token_count', 0),
                 createdAt = get_current_dt_in_milliseconds_precision(),
                 updatedAt = get_current_dt_in_milliseconds_precision()
             )

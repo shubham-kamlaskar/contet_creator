@@ -18,6 +18,8 @@ class CachingMechanism:
                     response['response'] = v
                     break
             response['user_query'] = user_query
+            response['tool_calls'] = "caching_tool"
+
             return response
         except Exception as e:
             logger.error(f"An error occured in check_cached_response caller: {str(e)}")

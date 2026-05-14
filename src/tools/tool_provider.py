@@ -17,7 +17,7 @@ class InternetSearch(BaseModel):
 def internet_search(requirements: str) -> list:
     """This tool is useful to fetch information from internet,when user needs real time or latest information"""
     search = DuckDuckGoSearchResults(output_format="json", num_results=3)
-    content = search.ainvoke(requirements)
+    content = search.invoke(requirements)
     return content
 
 # sync_browser = create_sync_playwright_browser()

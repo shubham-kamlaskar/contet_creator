@@ -9,6 +9,7 @@ class Conversations(BaseModel):
     llm_model: str
     tool_used: Optional[list[str]] = None
     token_count: Optional[dict[str, int]] = None
+    current_token_count: Optional[int] = None
     createdAt: Optional[datetime] = None
     updatedAt: Optional[datetime] = None
     

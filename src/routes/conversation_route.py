@@ -22,7 +22,7 @@ def chat():
         return jsonify({
             "status": "success",
             "reply": response.get('response', ''),
-            "tokens_used": response.get('token_count', {}).get('total_tokens', 0)
+            "tokens_used": response.get('current_token_count', 0)
         }), 200
     except Exception as e:
         logger.error(f"An error occured in chat caller: {str(e)}")

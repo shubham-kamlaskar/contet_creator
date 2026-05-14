@@ -13,3 +13,38 @@ tool_used
 tool_used
   Input should be a valid list [type=list_type, input_value='post_content_on_linkedin', input_type=str]
     For further information visit https://errors.pydantic.dev/2.13/v/list_type
+2026-05-14 15:44:59,733 - ERROR - An error occured in internal_conversations caller: '>' not supported between instances of 'dict' and 'int'
+2026-05-14 15:44:59,733 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: '>' not supported between instances of 'dict' and 'int'
+2026-05-14 15:54:10,617 - ERROR - An error occured in internal_conversations caller: int() argument must be a string, a bytes-like object or a real number, not 'dict'
+2026-05-14 15:54:10,617 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: int() argument must be a string, a bytes-like object or a real number, not 'dict'
+2026-05-14 15:57:35,937 - ERROR - An error occured in internal_conversations caller: 'token_count'
+2026-05-14 15:57:35,937 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: 'token_count'
+2026-05-14 16:00:27,746 - ERROR - An error occured in chat caller: 'NoneType' object has no attribute 'get'
+2026-05-14 16:11:44,639 - ERROR - An error occured in internal_conversations caller: 'token_count'
+2026-05-14 16:12:45,905 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: 'token_count'
+2026-05-14 16:22:44,848 - ERROR - An error occured in internal_conversations caller: 'token_count'
+2026-05-14 16:22:44,848 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: 'token_count'
+2026-05-14 16:29:43,211 - ERROR - An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used
+  Input should be a valid list [type=list_type, input_value='internet_search', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/list_type
+2026-05-14 16:29:43,211 - ERROR - An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used
+  Input should be a valid list [type=list_type, input_value='internet_search', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/list_type
+2026-05-14 16:29:43,211 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used
+  Input should be a valid list [type=list_type, input_value='internet_search', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/list_type
+2026-05-14 16:35:38,835 - ERROR - An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used
+  Input should be a valid list [type=list_type, input_value='internet_search', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/list_type
+2026-05-14 16:35:40,199 - ERROR - An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used
+  Input should be a valid list [type=list_type, input_value='internet_search', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/list_type
+2026-05-14 16:35:40,200 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used
+  Input should be a valid list [type=list_type, input_value='internet_search', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/list_type
