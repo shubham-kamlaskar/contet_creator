@@ -11,6 +11,7 @@ from src.prompt.prompt_store import Prompt
 from src.tools.tool_provider import getTools
 from src.agents.ollama_llm_provider import LLMProvider
 from src.tools.tool_error import handle_tool_errors
+from langchain.agents.middleware import HumanInTheLoopMiddleware
 
 debug_mode = os.getenv('AGENT_DEBUG_MODE', 'True')
 memory_checkpointer = InMemorySaver()
@@ -32,7 +33,11 @@ class AgentProvider:
                     system_prompt=(Prompt.DEFAULT_SYSTEM_PROMPT + Prompt.RESPONSE_FORMATTING + Prompt.CONTENT_CREATION_GUIDELINES + Prompt.GENERAL_INFO + Prompt.INFO_NOT_AVAILABLE),
                     checkpointer=memory_checkpointer,
                     debug=True,
-                    middleware=[handle_tool_errors]
+                    middleware=[handle_tool_errors, HumanInTheLoopMiddleware(   
+                                                                             interrupt_on={
+                                                                                 "post_content_on_linkedin": True 
+                                                                            }, description_prefix="Tool execution pending approval",
+                                                                            )]
                 )
             
             return agent
@@ -50,28 +55,59 @@ class AgentProvider:
                     "messages": [{"role": "user", "content": user_query}],
                 },
                     config ={"configurable": {"thread_id": "self.session_id"}},
-
+                    version="v2"
             )
             if output:
-                messages = output.get("messages", [])
-
-                response_call = messages[-1] if messages else None
-
-                answer = response_call.content
-                tool_calls = response_call.tool_calls
-                metadata = response_call.response_metadata
-                llm_model = metadata.get('model', '')
-                token_count = response_call.usage_metadata
-            else:
-                answer =  "Failed to generate any response."
+                is_interrupts = output.interrupts
+                human_intervisions = []
+                if is_interrupts:
+                    id = is_interrupts.id
+                    interrupt_id = is_interrupts.interrupt_id
+                    for i in is_interrupts:
+                        value = i.value
+                        actions_requests = value.get('action_requests', [])
+                        if len(actions_requests) > 0:
+                            for request in actions_requests:
+                                args = request.get("args", {})
+                                content = args.get("content")
+                        review_configs = value.get('review_configs', [])
+                        if len(review_configs) > 0:
+                            for review in review_configs:
+                                allowed_decisions = review.get('allowed_decisions')
+                                action_name = review.get('action_name')
+                        human_intervisions.append({"id": id, "interrupt_id": interrupt_id, "content": content, "allowed_actions": allowed_decisions, "action_name": action_name })
+                        
+                    response = {
+                        "user_query": user_query,
+                        "response": human_intervisions[0]['content'],
+                        "is_intervisions": True,
+                        "tool_used": human_intervisions[0]['action_name'],
+                        "llm_model": "qwen3.5",
+                        "token_count": {}
+                    }
                 
-            response = {
-                "user_query": user_query,
-                "response": answer,
-                "tool_used": tool_calls,
-                "llm_model": llm_model,
-                "token_count": token_count
-            }
+                else:
+                    messages = output.get("messages", [])
+                    if messages:
+
+                        response_call = messages[-1] if messages else None
+
+                        answer = response_call.content
+                        tool_calls = response_call.tool_calls
+                        metadata = response_call.response_metadata
+                        llm_model = metadata.get('model', '')
+                        token_count = response_call.usage_metadata
+                    else:
+                        answer =  "Failed to generate any response."
+                    
+                    response = {
+                        "user_query": user_query,
+                        "response": answer,
+                        "is_intervisions": False,
+                        "tool_used": tool_calls,
+                        "llm_model": llm_model,
+                        "token_count": token_count
+                    }
                 
             return response   
 
