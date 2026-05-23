@@ -48,3 +48,95 @@ tool_used
 tool_used
   Input should be a valid list [type=list_type, input_value='internet_search', input_type=str]
     For further information visit https://errors.pydantic.dev/2.13/v/list_type
+2026-05-18 12:37:32,977 - ERROR - An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used
+  Input should be a valid list [type=list_type, input_value='generate_thoughtful_comment_on_post', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/list_type
+2026-05-18 12:37:32,993 - ERROR - An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used
+  Input should be a valid list [type=list_type, input_value='generate_thoughtful_comment_on_post', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/list_type
+2026-05-18 12:37:32,993 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used
+  Input should be a valid list [type=list_type, input_value='generate_thoughtful_comment_on_post', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/list_type
+2026-05-18 12:49:25,804 - ERROR - An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used
+  Input should be a valid list [type=list_type, input_value='generate_thoughtful_comment_on_post', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/list_type
+2026-05-18 12:49:25,822 - ERROR - An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used
+  Input should be a valid list [type=list_type, input_value='generate_thoughtful_comment_on_post', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/list_type
+2026-05-18 12:49:25,824 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used
+  Input should be a valid list [type=list_type, input_value='generate_thoughtful_comment_on_post', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/list_type
+2026-05-18 12:54:02,590 - ERROR - An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used.0
+  Input should be a valid string [type=string_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+2026-05-18 12:54:02,592 - ERROR - An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used.0
+  Input should be a valid string [type=string_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+2026-05-18 12:54:02,592 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used.0
+  Input should be a valid string [type=string_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+2026-05-18 14:24:07,092 - ERROR - Error getting agent response: model requires more system memory (5.4 GiB) than is available (3.8 GiB) (status code: 500)
+2026-05-18 14:24:07,104 - ERROR - An error occured in internal_conversations caller: Error getting agent response: model requires more system memory (5.4 GiB) than is available (3.8 GiB) (status code: 500)
+2026-05-18 14:24:07,104 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: Error getting agent response: model requires more system memory (5.4 GiB) than is available (3.8 GiB) (status code: 500)
+2026-05-18 14:25:24,726 - ERROR - Error getting agent response: model requires more system memory (6.1 GiB) than is available (5.8 GiB) (status code: 500)
+2026-05-18 14:25:24,726 - ERROR - An error occured in internal_conversations caller: Error getting agent response: model requires more system memory (6.1 GiB) than is available (5.8 GiB) (status code: 500)
+2026-05-18 14:25:24,726 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: Error getting agent response: model requires more system memory (6.1 GiB) than is available (5.8 GiB) (status code: 500)
+2026-05-18 14:33:15,129 - ERROR - Error getting agent response: 'tuple' object has no attribute 'id'
+2026-05-18 14:33:15,146 - ERROR - An error occured in internal_conversations caller: Error getting agent response: 'tuple' object has no attribute 'id'
+2026-05-18 14:33:15,147 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: Error getting agent response: 'tuple' object has no attribute 'id'
+2026-05-18 14:39:48,436 - ERROR - Error getting agent response: 'tuple' object has no attribute 'id'
+2026-05-18 14:40:46,115 - ERROR - An error occured in internal_conversations caller: Error getting agent response: 'tuple' object has no attribute 'id'
+2026-05-18 14:40:46,115 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: Error getting agent response: 'tuple' object has no attribute 'id'
+2026-05-18 14:56:00,333 - ERROR - An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used.0
+  Input should be a valid string [type=string_type, input_value=[], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+2026-05-18 14:56:14,166 - ERROR - An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used.0
+  Input should be a valid string [type=string_type, input_value=[], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+2026-05-18 14:56:15,165 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used.0
+  Input should be a valid string [type=string_type, input_value=[], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+2026-05-18 16:51:22,256 - ERROR - Error initializing agent client: ('Error initializing Ollama llm_client', 'Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download')
+2026-05-18 16:51:22,263 - ERROR - Error getting agent response: Error initializing agent client: ('Error initializing Ollama llm_client', 'Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download')
+2026-05-18 16:51:22,263 - ERROR - An error occured in internal_conversations caller: Error getting agent response: Error initializing agent client: ('Error initializing Ollama llm_client', 'Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download')
+2026-05-18 16:51:22,263 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: Error getting agent response: Error initializing agent client: ('Error initializing Ollama llm_client', 'Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download')
+2026-05-18 16:54:55,966 - ERROR - An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used
+  Input should be a valid list [type=list_type, input_value='latest_ai_news', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/list_type
+2026-05-18 16:54:55,969 - ERROR - An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used
+  Input should be a valid list [type=list_type, input_value='latest_ai_news', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/list_type
+2026-05-18 16:54:55,969 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used
+  Input should be a valid list [type=list_type, input_value='latest_ai_news', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/list_type
+2026-05-18 17:10:18,513 - ERROR - An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used
+  Input should be a valid list [type=list_type, input_value='latest_ai_news', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/list_type
+2026-05-18 17:10:18,513 - ERROR - An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used
+  Input should be a valid list [type=list_type, input_value='latest_ai_news', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/list_type
+2026-05-18 17:10:18,513 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: 1 validation error for Conversations
+tool_used
+  Input should be a valid list [type=list_type, input_value='latest_ai_news', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/list_type
+2026-05-23 08:27:29,344 - ERROR - Error initializing agent client: ('Error initializing Ollama llm_client', 'Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download')
+2026-05-23 08:27:29,345 - ERROR - Error getting agent response: Error initializing agent client: ('Error initializing Ollama llm_client', 'Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download')
+2026-05-23 08:27:29,345 - ERROR - An error occured in internal_conversations caller: Error getting agent response: Error initializing agent client: ('Error initializing Ollama llm_client', 'Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download')
+2026-05-23 08:27:29,345 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: Error getting agent response: Error initializing agent client: ('Error initializing Ollama llm_client', 'Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download')

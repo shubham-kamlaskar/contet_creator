@@ -1,0 +1,1 @@
+Exception: An error occured in chat caller: An error occured in internal_conversations caller: Error getting agent response: model requires more system memory (6.1 GiB) than is available (5.8 GiB) (status code: 500)

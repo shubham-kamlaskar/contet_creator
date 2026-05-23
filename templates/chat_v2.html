@@ -129,49 +129,6 @@
       box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
     }
 
-    .interrupt-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 14px;
-    }
-
-    .interrupt-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 8px 14px;
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 600;
-      min-width: 88px;
-      transition: transform 0.2s, box-shadow 0.2s;
-      cursor: pointer;
-      border: none;
-      color: white;
-    }
-
-    .interrupt-button:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    .interrupt-button.approve {
-      background: #10b981;
-    }
-
-    .interrupt-button.reject {
-      background: #ef4444;
-    }
-
-    .interrupt-button.edit {
-      background: #f59e0b;
-    }
-
-    .interrupt-button.respond {
-      background: #3b82f6;
-    }
-
     .ai-message .url-card {
       background: #18181b;
       border: 1px solid #3f3f46;
@@ -658,7 +615,7 @@
     }
 
     // Add Message Function
-    function addMessage(message, sender = "user", isInterrupt = false) {
+    function addMessage(message, sender = "user") {
 
       const wrapper = document.createElement("div");
 
@@ -676,14 +633,6 @@
 
         const messageId = 'msg_' + Date.now();
         const renderedContent = renderAIMessage(message);
-        const interruptButtons = isInterrupt ? `
-          <div class="interrupt-buttons">
-            <button class="interrupt-button approve" onclick="handleInterruptAction('${messageId}','approve')">Approve</button>
-            <button class="interrupt-button reject" onclick="handleInterruptAction('${messageId}','reject')">Reject</button>
-            <button class="interrupt-button edit" onclick="handleInterruptAction('${messageId}','edit')">Edit</button>
-            <button class="interrupt-button respond" onclick="handleInterruptAction('${messageId}','respond')">Respond</button>
-          </div>
-        ` : '';
 
         wrapper.innerHTML = `
           <div class="flex items-start gap-3">
@@ -696,7 +645,22 @@
                 ${renderedContent}
               </div>
 
-              ${interruptButtons}
+              <div class="message-actions">
+                <button onclick="copyMessage('${messageId}')">
+                  <i class="fa-regular fa-copy"></i>
+                  <span>Copy</span>
+                </button>
+
+                <button onclick="shareMessage('${messageId}')">
+                  <i class="fa-solid fa-share-nodes"></i>
+                  <span>Share</span>
+                </button>
+
+                <button onclick="likeMessage('${messageId}')">
+                  <i class="fa-regular fa-thumbs-up"></i>
+                  <span>Like</span>
+                </button>
+              </div>
             </div>
           </div>
         `;
@@ -755,26 +719,6 @@
       // Implement regeneration logic
     }
 
-    function handleInterruptAction(messageId, action) {
-      const labels = {
-        approve: 'Approve',
-        reject: 'Reject',
-        edit: 'Edit',
-        respond: 'Respond'
-      };
-      const toastMessages = {
-        approve: 'Approved interrupt action',
-        reject: 'Rejected interrupt action',
-        edit: 'Requested edit',
-        respond: 'Requested response'
-      };
-      showToast(toastMessages[action] || 'Action triggered');
-      input.value = labels[action] || '';
-      input.style.height = 'auto';
-      form.requestSubmit();
-      console.log(`Interrupt action: ${action}`, messageId);
-    }
-
     function likeMessage(messageId) {
       showToast('Thank you for your feedback!');
       // Implement like logic
@@ -828,6 +772,7 @@
     
     // Submit
     form.addEventListener("submit", async (e) => {
+
       e.preventDefault();
 
       const message = input.value.trim();
@@ -862,11 +807,15 @@
         removeTyping();
 
         // Add AI response
-        addMessage(data.reply || "No response received", "bot", data.is_interrupt === true);
+        addMessage(data.reply || "No response received", "bot");
 
-        // Store latest token count
-        tokens_used = data.tokens_used || 0;
-        document.getElementById("tokenCounter").innerText = `${data.tokens_used} / 264144`;
+      // Store latest token count
+      tokens_used = data.tokens_used || 0;
+
+          // Update counter
+        document.getElementById("tokenCounter").innerText =
+        `${data.tokens_used} / 264144`;
+
 
       } catch (error) {
 
@@ -879,6 +828,7 @@
 
         console.error(error);
       }
+
     });
 
     // Clear chat

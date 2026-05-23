@@ -17,7 +17,7 @@ def update_conversations_in_db(data: dict):
         data = Conversations(
                 user_query = data.get('user_query', ''),
                 response = data.get('response', ''),
-                is_intervision= data.get('is_intervisions', False),
+                is_interrupt= data.get('is_interrupt', False),
                 llm_model= data.get('llm_model', ''),
                 tool_used=  data.get('tool_used', []),
                 token_count= data.get('token_count', {}),

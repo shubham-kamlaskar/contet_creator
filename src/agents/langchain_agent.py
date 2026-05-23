@@ -71,8 +71,6 @@ class AgentProvider:
                 human_intervisions = []
                 if is_interrupts:
                     for i in is_interrupts:
-                        id = is_interrupts.id
-                        interrupt_id = is_interrupts.interrupt_id
                         value = i.value
                         actions_requests = value.get('action_requests', [])
                         if len(actions_requests) > 0:
@@ -93,7 +91,7 @@ class AgentProvider:
                     response = {
                         "user_query": user_query,
                         "response": human_intervisions[0].content,
-                        "is_intervisions": True,
+                        "is_interrupt": True,
                         "tool_used": [human_intervisions[0].action_name],
                         "llm_model": "qwen3.5",
                         "token_count": {}
@@ -102,10 +100,13 @@ class AgentProvider:
                 else:
                     value = output.value
                     messages = value.get("messages", [])
+                    tool_calls = []
                     if messages:
                         response_call = messages[-1] if messages else None
                         answer = response_call.content
                         tool_calls = messages[-2].name
+                        if tool_calls is None:
+                            tool_calls = []
                         metadata = response_call.response_metadata
                         llm_model = metadata.get('model', '')
                         token_count = response_call.usage_metadata
@@ -115,7 +116,7 @@ class AgentProvider:
                     response = {
                         "user_query": user_query,
                         "response": answer,
-                        "is_intervisions": False,
+                        "is_interrupt": False,
                         "tool_used": tool_calls,
                         "llm_model": llm_model,
                         "token_count": token_count

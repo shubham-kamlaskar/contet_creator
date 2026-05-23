@@ -12,3 +12,4 @@ quart
 quart[dotenv]
 pymongo
 linkedin-api
+pygithub

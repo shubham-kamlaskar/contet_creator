@@ -2,7 +2,7 @@ from src.guardrails.caching_provider import CachingMechanism
 from src.agents.langchain_agent import AgentProvider
 from src.util.log_adapter import logger
 from src.database.provider.conversation_provider import update_conversations_in_db
-from src.util.prompt_evaluator import calculate_total_token_count
+from src.util.prompt_counter import calculate_total_token_count
 agent = AgentProvider()
 caching = CachingMechanism()
 
