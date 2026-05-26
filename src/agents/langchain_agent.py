@@ -35,11 +35,7 @@ class AgentProvider:
                     system_prompt=(Prompt.DEFAULT_SYSTEM_PROMPT + Prompt.RESPONSE_FORMATTING + Prompt.CONTENT_CREATION_GUIDELINES + Prompt.GENERAL_INFO + Prompt.INFO_NOT_AVAILABLE),
                     checkpointer=memory_checkpointer,
                     debug=True,
-                    middleware=[handle_tool_errors, HumanInTheLoopMiddleware(   
-                                                                             interrupt_on={
-                                                                                 "post_content_on_linkedin": True 
-                                                                            }, description_prefix="Tool execution pending approval",
-                                                                            )]
+                    middleware=[handle_tool_errors]
                 )
 
         except Exception as e:

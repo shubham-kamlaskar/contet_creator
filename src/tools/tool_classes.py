@@ -43,3 +43,17 @@ class GenerateThoughtfulCommentOnPost(BaseModel):
 
 class ViralTopicSuggestions(BaseModel):
     topics: Optional[list] = Field(description="List of viraltopics generated based on the ")
+    
+class LikeOnLinkedinPost(BaseModel):
+    post_urn: str = Field(description="URN of the linkedin post to like")
+    reaction_type: Optional[str] = Field(
+        default="LIKE", description=(
+            "Type of reaction to give on the linkedin post. "
+            "Examples: LIKE, LOVE, CELEBRATE, SUPPORT, INSIGHTFUL, CURIOUS."
+        ),
+        examples=["LIKE", "LOVE", "CELEBRATE", "SUPPORT", "INSIGHTFUL", "CURIOUS"]
+    )
+    
+class CommentOnLinkedinPost(BaseModel):
+    post_urn: str = Field(description="URN of the linkedin post to like")
+    comment: str = Field(description="Comment to be posted on the linkedin post")

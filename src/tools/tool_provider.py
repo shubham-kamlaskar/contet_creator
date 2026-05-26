@@ -5,7 +5,7 @@ from typing import Optional
 
 from src.tools.tool_classes import (InternetSearch, LatestAINews, FetchLinkedinMetadata, PostContentOnLinkedin, 
                                     UpdateContentInDocument, PostWriterInput, GenerateThoughtfulCommentOnPost, 
-                                    ViralTopicSuggestions)
+                                    ViralTopicSuggestions, LikeOnLinkedinPost, CommentOnLinkedinPost)
 from src.agents.ollama_llm_provider import LLMProvider
 from src.api.linkedin_api_methods import LinkedInAPI
 from src.util.log_adapter import logger
@@ -113,6 +113,30 @@ def viral_topic_suggestions(topics: list):
     except Exception as e:
         logger.error(f"An error occured during 'viral_topic_suggestions' tool: {str(e)}")
         return {"result": "An error occured, please try again"}
+    
+@tool('like_on_linkedin_post', args_schema=LikeOnLinkedinPost)
+def like_on_linkedin_post(post_urn: str, reaction_type: str):
+    """This tool is used to give a like reaction on a linkedin post given the post urn."""
+    try:
+        get_linkedin_api().like_the_post(post_urn, reaction_type)
+        return {"result": "Liked the post successfully."}
+    except Exception as e:
+        logger.error(f"An error occured during 'like_on_linkedin_post' tool: {str(e)}")
+        return {"result": "An error occured, please try again"}
+    
+@tool('comment_on_linkedin_post', args_schema=CommentOnLinkedinPost)
+def comment_on_linkedin_post(post_urn: str, comment: str):
+    """This tool is used to comment a linkedin post given the post urn."""
+    try:
+        get_linkedin_api().comment_on_post(post_urn, comment)
+        return {"result": "Commented on the post successfully."}
+    except Exception as e:
+        logger.error(f"An error occured during 'comment_on_linkedin_post' tool: {str(e)}")
+        return {"result": "An error occured, please try again"}
+        
+    
+## post the content in group
+## attached images, link, video in the post
 
 getTools = [internet_search, update_content_in_document, post_content_on_linkedin, fetch_linkedin_metadata, latest_ai_news, generate_thoughtful_comment_on_post,
-            post_writer]
+            post_writer, viral_topic_suggestions, like_on_linkedin_post, comment_on_linkedin_post]

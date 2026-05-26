@@ -825,7 +825,29 @@
     }
 
     let tokens_used = 0;
-    
+    let conversationId = null;
+
+    async function fetchNewConversationId() {
+      try {
+        const response = await fetch("/newchat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+
+        const data = await response.json();
+        conversationId = data.session_id || null;
+        return conversationId;
+      } catch (error) {
+        console.error('Failed to fetch new conversation id:', error);
+        return null;
+      }
+    }
+
+    // Initialize session id for this page load
+    fetchNewConversationId();
+
     // Submit
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -853,7 +875,8 @@
           },
           body: JSON.stringify({
             message,
-            tokens_used
+            tokens_used,
+            session_id: conversationId
           })
         });
 
@@ -889,9 +912,10 @@
     });
 
     // New chat
-    newChatBtn.addEventListener("click", () => {
+    newChatBtn.addEventListener("click", async () => {
       if (confirm("Start a new conversation?")) {
         chatContainer.innerHTML = "";
+        await fetchNewConversationId();
         showToast('New conversation started');
       }
     });

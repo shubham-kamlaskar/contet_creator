@@ -33,6 +33,10 @@ def chat():
 def newchat():
     try:
         session_id = str(uuid.uuid4())
+        return jsonify({
+            "status": "success",
+            "session_id": session_id
+        }), 200
     except Exception as e:
         logger.error(f"An error occured in newchat caller: {str(e)}")
         raise Exception(f"An error occured in newchat caller: {str(e)}")

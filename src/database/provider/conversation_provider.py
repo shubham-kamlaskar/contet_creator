@@ -12,9 +12,16 @@ mongodb_client = MongoDBClient()
 db_name = str(os.getenv("DB_NAME"))
 collection_name = str(os.getenv("COLLECTION_NAME"))
 
+message_id = 0
+
 def update_conversations_in_db(data: dict):
     try:
+        global message_id
+        message_id += 1
+
         data = Conversations(
+                session_id = data.get('session_id', ''),
+                message_id = message_id,
                 user_query = data.get('user_query', ''),
                 response = data.get('response', ''),
                 is_interrupt= data.get('is_interrupt', False),
