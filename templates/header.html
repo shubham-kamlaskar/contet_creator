@@ -1,0 +1,248 @@
+<!-- templates/partials/header.html -->
+<!-- Requires: Tailwind CDN + DM Sans + Sora fonts (already loaded in base template) -->
+
+<style>
+  .nav-link-item {
+    display: flex; align-items: center; gap: 6px;
+    padding: 2px 5px; border-radius: 8px;
+    font-size: 14px; font-weight: 500; color: #475569;
+    text-decoration: none; white-space: nowrap;
+    transition: background 0.15s, color 0.15s;
+  }
+  .nav-link-item:hover { background: #f1f5f9; color: #1e293b; }
+  .nav-link-item.active { background: #ede9fe; color: #4f46e5; }
+
+  .nav-dropdown { position: relative; }
+  .nav-dropdown-menu {
+    display: none; position: absolute; top: calc(100% + 6px); left: 0;
+    background: white; border: 1px solid #e2e8f0; border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08); min-width: 180px;
+    padding: 6px; z-index: 100;
+  }
+  .nav-dropdown:hover .nav-dropdown-menu,
+  .nav-dropdown.open .nav-dropdown-menu { display: block; }
+
+  .nav-dropdown-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 12px; border-radius: 8px; font-size: 13px;
+    font-weight: 500; color: #475569; text-decoration: none;
+    transition: background 0.12s, color 0.12s;
+  }
+  .nav-dropdown-item:hover { background: #f8fafc; color: #4f46e5; }
+
+  .nav-search-wrap { position: relative; }
+  .nav-search-wrap svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #94a3b8; pointer-events: none; }
+  .nav-search-input {
+    padding: 7px 12px 7px 32px; border: 1.5px solid #e2e8f0; border-radius: 8px;
+    font-size: 13px; font-family: 'DM Sans', sans-serif; color: #1e293b;
+    background: #f8fafc; outline: none; transition: border-color 0.15s, background 0.15s;
+    width: 200px;
+  }
+  .nav-search-input:focus { border-color: #6366f1; background: white; }
+  .nav-search-input::placeholder { color: #94a3b8; }
+
+  .notif-btn {
+    position: relative; width: 36px; height: 36px; border-radius: 8px;
+    border: 1.5px solid #e2e8f0; background: white; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: #64748b; transition: border-color 0.15s, color 0.15s;
+  }
+  .notif-btn:hover { border-color: #6366f1; color: #4f46e5; }
+  .notif-badge {
+    position: absolute; top: -4px; right: -4px;
+    background: #ef4444; color: white; border-radius: 999px;
+    font-size: 10px; font-weight: 600; min-width: 16px; height: 16px;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0 4px; border: 2px solid white; font-family: 'DM Sans', sans-serif;
+  }
+
+  .profile-btn {
+    display: flex; align-items: center; gap: 8px; padding: 4px 10px 4px 4px;
+    border-radius: 10px; border: 1.5px solid #e2e8f0; background: white;
+    cursor: pointer; text-decoration: none; transition: border-color 0.15s;
+  }
+  .profile-btn:hover { border-color: #6366f1; }
+  .profile-avatar {
+    width: 28px; height: 28px; border-radius: 8px; object-fit: cover;
+  }
+  .profile-name { font-size: 13px; font-weight: 600; color: #1e293b; }
+  .profile-role { font-size: 11px; color: #94a3b8; font-weight: 400; }
+
+  .profile-dropdown-menu {
+    display: none; position: absolute; top: calc(100% + 8px); right: 0;
+    background: white; border: 1px solid #e2e8f0; border-radius: 14px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.1); min-width: 200px;
+    padding: 8px; z-index: 100;
+  }
+  .profile-dropdown.open .profile-dropdown-menu { display: block; }
+
+  .profile-header {
+    padding: 10px 12px 12px; border-bottom: 1px solid #f1f5f9; margin-bottom: 6px;
+  }
+
+  .profile-dd-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 12px; border-radius: 8px; font-size: 13px;
+    font-weight: 500; color: #475569; text-decoration: none;
+    transition: background 0.12s, color 0.12s;
+  }
+  .profile-dd-item:hover { background: #f8fafc; color: #1e293b; }
+  .profile-dd-item.danger { color: #ef4444; }
+  .profile-dd-item.danger:hover { background: #fee2e2; color: #dc2626; }
+
+  .navbar-divider { height: 1px; background: #f1f5f9; margin: 6px 0; }
+
+  /* Mobile menu */
+  #mobileMenu { display: none; }
+  #mobileMenu.open { display: block; }
+
+  @media (max-width: 1024px) {
+    #desktopNav { display: none !important; }
+    #mobileMenuBtn { display: flex !important; }
+  }
+  @media (min-width: 1025px) {
+    #mobileMenuBtn { display: none !important; }
+  }
+</style>
+
+<nav style="background: white; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; z-index: 40; font-family: 'DM Sans', sans-serif;">
+  <div style="max-width: 1600px; margin: 0 auto; padding: 0 24px; height: 60px; display: flex; align-items: center; gap: 8px;">
+
+    <!-- Logo -->
+    <a href="#" style="font-family: 'Sora', sans-serif; font-size: 18px; font-weight: 600; color: #4f46e5; text-decoration: none; margin-right: 12px; white-space: nowrap; display: flex; align-items: center; gap: 8px;">
+      <div style="width: 28px; height: 28px; background: linear-gradient(135deg, #6366f1, #4f46e5); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+        <svg width="16" height="16" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      </div>
+      Linkedin Business Manager
+    </a>
+
+    <!-- Desktop Nav -->
+    <div id="desktopNav" style="display: flex; align-items: center; gap: 2px; flex: 1; overflow: hidden;">
+
+      <a href="{{ url_for('leads_management_bp.lead')}}" class="nav-link-item active">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Leads
+      </a>
+
+
+      <!-- Billing dropdown -->
+      <div class="nav-dropdown">
+        <button class="nav-link-item" style="background: none; border: none; cursor: pointer; font-family: inherit;">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          Billing
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true" style="margin-left:2px; opacity:0.5;"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="nav-dropdown-menu">
+          <a href="#" class="nav-dropdown-item">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/><path d="M12 8v4l3 3"/></svg>
+            Subscription
+          </a>
+          <a href="#" class="nav-dropdown-item">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Invoices
+          </a>
+        </div>
+      </div>
+
+      <a href="#" class="nav-link-item">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Analytics
+      </a>
+
+      <a href="{{ url_for('conversation_bp.home')}}" class="nav-link-item">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Chat
+      </a>
+    </div>
+
+    <!-- Right side -->
+    <div style="display: flex; align-items: center; gap: 10px; margin-left: auto; flex-shrink: 0;">
+
+      <!-- Search -->
+      <div class="nav-search-wrap" id="desktopSearch" style="display: flex;">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="search" placeholder="Search..." class="nav-search-input" />
+      </div>
+
+      <!-- Notifications -->
+      <button class="notif-btn" title="Notifications" aria-label="3 notifications">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="notif-badge" aria-hidden="true">3</span>
+      </button>
+
+      <!-- Profile dropdown -->
+      <div class="nav-dropdown profile-dropdown" id="profileDropdown">
+        <a href="#" class="profile-btn" onclick="toggleProfile(event)">
+          <img src="https://github.com/mdo.png" class="profile-avatar" alt="Admin avatar" />
+          <div>
+            <div class="profile-name">Admin</div>
+            <div class="profile-role">Super Admin</div>
+          </div>
+          <svg width="12" height="12" fill="none" stroke="#94a3b8" stroke-width="2.5" viewBox="0 0 24 24" style="margin-left:2px;" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </a>
+
+        <div class="profile-dropdown-menu">
+          <div class="profile-header">
+            <div style="font-size: 13px; font-weight: 600; color: #1e293b;">Admin User</div>
+            <div style="font-size: 12px; color: #94a3b8; margin-top: 2px;">admin@personalcfo.in</div>
+          </div>
+
+          <a href="#" class="profile-dd-item">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Profile
+          </a>
+          <a href="#" class="profile-dd-item">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M12 2v2M12 20v2M20 12h2M2 12h2M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41"/></svg>
+            Settings
+          </a>
+
+          <div class="navbar-divider"></div>
+
+          <a href="#" class="profile-dd-item danger">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Sign Out
+          </a>
+        </div>
+      </div>
+
+      <!-- Mobile hamburger -->
+      <button id="mobileMenuBtn" onclick="toggleMobile()" style="display:none; width:36px; height:36px; border-radius:8px; border:1.5px solid #e2e8f0; background:white; cursor:pointer; align-items:center; justify-content:center; color:#64748b;" aria-label="Toggle menu">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- Mobile expanded menu -->
+  <div id="mobileMenu" style="border-top: 1px solid #f1f5f9; background: white; padding: 12px 16px 16px;">
+    <div style="display: flex; flex-direction: column; gap: 2px; margin-bottom: 12px;">
+      <a href="#" class="nav-link-item active">Dashboard</a>
+      <a href="#" class="nav-link-item">Clients</a>
+      <a href="#" class="nav-link-item">CA</a>
+      <a href="#" class="nav-link-item">Billing — Subscription</a>
+      <a href="#" class="nav-link-item">Billing — Invoices</a>
+      <a href="#" class="nav-link-item">Analytics</a>
+      <a href="#" class="nav-link-item">Employees</a>
+      <a href="#" class="nav-link-item">Compliance</a>
+      <a href="#" class="nav-link-item">Support</a>
+    </div>
+    <div class="nav-search-wrap" style="margin-bottom: 10px;">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="search" placeholder="Search..." class="nav-search-input" style="width:100%;" />
+    </div>
+  </div>
+</nav>
+
+<script>
+  function toggleProfile(e) {
+    e.preventDefault();
+    document.getElementById('profileDropdown').classList.toggle('open');
+  }
+  function toggleMobile() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+  document.addEventListener('click', function(e) {
+    const pd = document.getElementById('profileDropdown');
+    if (pd && !pd.contains(e.target)) pd.classList.remove('open');
+  });
+</script>

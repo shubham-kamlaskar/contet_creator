@@ -97,7 +97,8 @@ def post_writer(tone: Optional[str] = None, pitch: Optional[str] = None, content
 def generate_thoughtful_comment_on_post(comment: str):
     """This tool is used to generate a thoughtfull comment based on the linkedin post or article to get higher attensions from peers.
     First understand the post throughly then generate a comment.
-    Sometime the post may or may not related to the field of AI but we need to write a comment there."""
+    Sometime the post may or may not related to the field of AI but we need to write a comment there.
+    It needs to sound like written by human only, dont add any hashtages or emojis in the comment."""
     try:
         return {"result": comment}
     except Exception as e:
@@ -126,7 +127,7 @@ def like_on_linkedin_post(post_urn: str, reaction_type: str):
     
 @tool('comment_on_linkedin_post', args_schema=CommentOnLinkedinPost)
 def comment_on_linkedin_post(post_urn: str, comment: str):
-    """This tool is used to comment a linkedin post given the post urn."""
+    """This tool is used to write comment on a linkedin post given the post urn."""
     try:
         get_linkedin_api().comment_on_post(post_urn, comment)
         return {"result": "Commented on the post successfully."}

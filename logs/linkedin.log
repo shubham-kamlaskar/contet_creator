@@ -144,3 +144,16 @@ tool_used
 2026-05-26 11:26:58,925 - ERROR - Error getting agent response: Error initializing agent client: ('Error initializing Ollama llm_client', 'Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download')
 2026-05-26 11:26:58,925 - ERROR - An error occured in internal_conversations caller: Error getting agent response: Error initializing agent client: ('Error initializing Ollama llm_client', 'Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download')
 2026-05-26 11:26:58,925 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: Error getting agent response: Error initializing agent client: ('Error initializing Ollama llm_client', 'Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download')
+2026-05-28 11:43:17,344 - ERROR - An error occured in lead caller: 'dict object' has no attribute 'client_name'
+2026-05-28 11:59:13,917 - ERROR - An error occured in update_conversations_in_db call: 1 validation error for Conversations
+session_id
+  Input should be a valid string [type=string_type, input_value=0, input_type=int]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+2026-05-28 11:59:13,921 - ERROR - An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: 1 validation error for Conversations
+session_id
+  Input should be a valid string [type=string_type, input_value=0, input_type=int]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+2026-05-28 11:59:13,921 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: 1 validation error for Conversations
+session_id
+  Input should be a valid string [type=string_type, input_value=0, input_type=int]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
