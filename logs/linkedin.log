@@ -157,3 +157,39 @@ session_id
 session_id
   Input should be a valid string [type=string_type, input_value=0, input_type=int]
     For further information visit https://errors.pydantic.dev/2.13/v/string_type
+2026-05-29 11:34:30,917 - ERROR - An error occured in update_conversations_in_db call: 1 validation error for Conversations
+session_id
+  Input should be a valid string [type=string_type, input_value=0, input_type=int]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+2026-05-29 11:34:30,922 - ERROR - An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: 1 validation error for Conversations
+session_id
+  Input should be a valid string [type=string_type, input_value=0, input_type=int]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+2026-05-29 11:34:30,922 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: 1 validation error for Conversations
+session_id
+  Input should be a valid string [type=string_type, input_value=0, input_type=int]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+2026-05-29 11:39:40,470 - ERROR - An error occured in update_conversations_in_db call: 1 validation error for Conversations
+session_id
+  Input should be a valid string [type=string_type, input_value=0, input_type=int]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+2026-05-29 11:40:44,458 - ERROR - An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: 1 validation error for Conversations
+session_id
+  Input should be a valid string [type=string_type, input_value=0, input_type=int]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+2026-05-29 11:40:53,820 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: 1 validation error for Conversations
+session_id
+  Input should be a valid string [type=string_type, input_value=0, input_type=int]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+2026-05-29 11:44:33,102 - ERROR - An error occured in update_conversations_in_db call: 1 validation error for Conversations
+session_id
+  Input should be a valid string [type=string_type, input_value=0, input_type=int]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+2026-05-29 11:44:41,463 - ERROR - An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: 1 validation error for Conversations
+session_id
+  Input should be a valid string [type=string_type, input_value=0, input_type=int]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+2026-05-29 11:44:52,068 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: 1 validation error for Conversations
+session_id
+  Input should be a valid string [type=string_type, input_value=0, input_type=int]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type

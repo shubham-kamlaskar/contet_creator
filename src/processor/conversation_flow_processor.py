@@ -14,7 +14,7 @@ def internal_conversations(request):
         if data:
             user_query = data.get("message", "")
             token_used = int(data.get('tokens_used', 0))
-            session_id = data.get("session_id", 000000)
+            session_id = data.get("session_id", "000000")
             response: dict = caching.check_cached_response(user_query)
             
             if not response.get("response"):

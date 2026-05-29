@@ -20,13 +20,13 @@ def update_conversations_in_db(data: dict):
         message_id += 1
 
         data = Conversations(
-                session_id = data.get('session_id', ''),
+                session_id = data.get('session_id', 'dummy'),
                 message_id = message_id,
                 user_query = data.get('user_query', ''),
                 response = data.get('response', ''),
                 is_interrupt= data.get('is_interrupt', False),
                 llm_model= data.get('llm_model', ''),
-                tool_used=  data.get('tool_used', []),
+                tool_used=  data.get('tool_calls', []),
                 token_count= data.get('token_count', {}),
                 current_token_count = data.get('current_token_count', 0),
                 createdAt = get_current_dt_in_milliseconds_precision(),

@@ -35,15 +35,14 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { height: 100%; overflow: hidden; }
+    html, body { width: 100%; min-height: 100%; }
     body {
-      height: 100%;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
       font-family: 'DM Sans', sans-serif;
       background: var(--bg);
       color: var(--text);
+      overflow-x: hidden;
+      overflow-y: auto;
+      min-width: 0;
     }
 
     /* ── Scrollbar ─────────────────────────────── */
@@ -54,8 +53,10 @@
     /* ── Layout shell ──────────────────────────── */
     .chat-shell {
       display: flex;
-      flex: 1;
-      min-height: 0;
+      width: 100%;
+      max-width: 100%;
+      min-height: calc(100vh - 60px);
+      height: auto;
       overflow: hidden;
     }
 
@@ -174,7 +175,8 @@
 
     /* ── Main area ─────────────────────────────── */
     .chat-main {
-      flex: 1;
+      flex: 1 1 auto;
+      min-width: 0;
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -226,11 +228,15 @@
     /* ── Messages ──────────────────────────────── */
     .messages-area {
       flex: 1;
+      width: 100%;
+      max-width: 100%;
       overflow-y: auto;
+      overflow-x: hidden;
       padding: 28px 24px;
       display: flex;
       flex-direction: column;
       gap: 20px;
+      min-width: 0;
     }
 
     /* Welcome state */
@@ -320,6 +326,8 @@
       box-shadow: var(--shadow-sm);
       max-width: 100%;
       overflow-x: auto;
+      word-wrap: break-word;
+      overflow-wrap: anywhere;
     }
 
     /* AI message markdown */
@@ -418,6 +426,23 @@
     .send-btn:disabled { opacity:.4; cursor: default; }
 
     /* ── Responsive ────────────────────────────── */
+    @media (max-width: 1024px) {
+      .chat-shell { flex-direction: column; min-height: auto; }
+      .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); }
+      .chat-topbar { padding: 0 16px; }
+      .messages-area { padding: 20px 16px; }
+      .input-area { padding: 14px 16px 18px; }
+      .input-wrap { min-width: 0; }
+      .chat-main { min-height: calc(100vh - 60px); }
+    }
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .chat-topbar { padding: 0 14px; }
+      .topbar-title { font-size: 14px; }
+      .topbar-sub { display: none; }
+      .input-wrap { padding: 10px 12px 10px; }
+      .send-btn { width: 100%; justify-content: center; }
+    }
     @media (max-width: 768px) {
       .sidebar { display: none; }
       .messages-area { padding: 16px; }
@@ -463,6 +488,14 @@
           <div class="history-item-icon"><i class="fa-regular fa-message" style="font-size:11px;"></i></div>
           <span class="history-item-text">Marketing strategy ideas</span>
         </div>
+        <div class="history-item">
+          <div class="history-item-icon"><i class="fa-regular fa-message" style="font-size:11px;"></i></div>
+          <span class="history-item-text">Tax saving options 2024</span>
+        </div>
+        <div class="history-item">
+          <div class="history-item-icon"><i class="fa-regular fa-message" style="font-size:11px;"></i></div>
+          <span class="history-item-text">SIP vs lump sum investing</span>
+        </div>
       </div>
 
       <div class="sidebar-footer">
@@ -485,7 +518,7 @@
         <div class="chat-topbar-left">
           <div>
             <div class="topbar-title">AI Assistant</div>
-            <div class="topbar-sub">Modern QnA Chatbot</div>
+            <div class="topbar-sub">PersonalCFO — Finance & Tax Copilot</div>
           </div>
           <div class="chat-model-badge">GPT-4o Live</div>
         </div>
@@ -504,23 +537,23 @@
             <svg width="28" height="28" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/><path d="M12 8v4l3 3"/></svg>
           </div>
           <div class="welcome-title">Ask me anything</div>
-          <div class="welcome-sub">I'm your AI assistant. Type a message below to get started.</div>
+          <div class="welcome-sub">Your AI-powered finance and tax assistant. Ask about ITR, investments, tax planning, and more.</div>
           <div class="suggestion-grid">
             <button class="suggestion-card" onclick="useSuggestion(this)">
-              <span class="suggestion-card-icon">💬</span>
-              What can you help me with?
+              <span class="suggestion-card-icon">📊</span>
+              How do I save tax under Section 80C?
+            </button>
+            <button class="suggestion-card" onclick="useSuggestion(this)">
+              <span class="suggestion-card-icon">💡</span>
+              What is the difference between ELSS and PPF?
             </button>
             <button class="suggestion-card" onclick="useSuggestion(this)">
               <span class="suggestion-card-icon">📝</span>
-              Summarise a topic for me
+              Help me prepare for ITR filing this year
             </button>
             <button class="suggestion-card" onclick="useSuggestion(this)">
-              <span class="suggestion-card-icon">🔍</span>
-              Explain a concept simply
-            </button>
-            <button class="suggestion-card" onclick="useSuggestion(this)">
-              <span class="suggestion-card-icon">⚡</span>
-              Help me draft something
+              <span class="suggestion-card-icon">📈</span>
+              SIP vs lump sum — which is better?
             </button>
           </div>
         </div>
@@ -534,7 +567,7 @@
             <textarea
               id="messageInput"
               rows="1"
-              placeholder="Ask anything..."
+              placeholder="Ask about tax, investments, ITR filing…"
             ></textarea>
             <div class="input-footer">
               <span class="input-hint">Press Enter to send &nbsp;·&nbsp; Shift+Enter for new line</span>
@@ -557,10 +590,6 @@
     const container     = document.getElementById("chatContainer");
     const sendBtn       = document.getElementById("sendBtn");
     const welcomeState  = document.getElementById("welcomeState");
-
-    // ── Session ID (persisted for this page load) ──
-    const sessionId = crypto.randomUUID ? crypto.randomUUID()
-                    : Math.random().toString(36).slice(2) + Date.now();
 
     // ── Auto-resize textarea ───────────────────
     input.addEventListener("input", () => {
@@ -671,7 +700,7 @@
         const res = await fetch("/response", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message, session_id: sessionId })
+          body: JSON.stringify({ message })
         });
         const data = await res.json();
         removeTyping();
