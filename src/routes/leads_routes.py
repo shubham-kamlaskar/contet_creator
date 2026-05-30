@@ -1,24 +1,24 @@
-from flask import Blueprint, render_template, request, jsonify
+from quart import Blueprint, render_template, request, jsonify
 from src.database.provider.leads_info import LeadsInfoProvider
 from src.util.log_adapter import logger
 
 leads_management_bp = Blueprint('leads_management_bp', __name__, static_folder="static", template_folder="templates")
 
 @leads_management_bp.route('/', methods=['GET'])
-def lead():
+async def lead():
     try:
         leads = LeadsInfoProvider().get_all_leads()
-        return render_template('home.html', leads=leads)
+        return await render_template('home.html', leads=leads)
     except Exception as e:
         logger.error(f"An error occured in lead caller: {str(e)}")
-        return render_template('home.html', leads=[])
+        return await render_template('home.html', leads=[])
 
 
 # Add lead
 @leads_management_bp.route("/add_lead", methods=["POST"])
-def add_lead():
+async def add_lead():
     try:
-        data = request.get_json()
+        data = await request.get_json()
         if not data:
             return jsonify({
                 "status": "error",
@@ -42,7 +42,7 @@ def add_lead():
 
 # Delete lead
 @leads_management_bp.route("/delete_lead/<id>", methods=["DELETE"])
-def delete_lead(id):
+async def delete_lead(id):
     try:
         if not id:
             return jsonify({
@@ -67,7 +67,7 @@ def delete_lead(id):
 
 # Edit lead
 @leads_management_bp.route("/edit_lead/<id>", methods=["PUT"])
-def edit_lead(id):
+async def edit_lead(id):
     try:
         if not id:
             return jsonify({
@@ -99,7 +99,7 @@ def edit_lead(id):
 
 # Get single lead (used by frontend to populate edit form)
 @leads_management_bp.route("/get_lead/<id>", methods=["GET"])
-def get_lead(id):
+async def get_lead(id):
     try:
         if not id:
             return jsonify({

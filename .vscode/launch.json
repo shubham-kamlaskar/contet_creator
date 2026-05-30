@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python Debugger: Linkedin Creator",
+            "name": "Python Debugger: flask based app",
             "type": "debugpy",
             "request": "launch",
             "module": "flask",

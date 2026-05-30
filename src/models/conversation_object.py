@@ -10,7 +10,7 @@ class Conversations(BaseModel):
     is_interrupt: bool
     llm_model: str
     tool_used: Optional[Any] = None
-    token_count: Optional[dict[str, Any]] = None
+    token_count: Optional[dict[Any, Any]] = None
     current_token_count: Optional[int] = None
     createdAt: Optional[datetime] = None
     updatedAt: Optional[datetime] = None

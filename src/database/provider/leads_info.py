@@ -14,16 +14,16 @@ class LeadsInfoProvider:
         self.database_name = str(os.getenv("LEADS_DB_NAME"))
         self.collection_name = str(os.getenv("LEADES_COLLECTION_NAME"))
         
-    def get_all_leads(self):
+    async def get_all_leads(self):
         try:
             leads = self.mongo_client.fetch_all_records_from_collection(self.database_name, self.collection_name)
             return leads
         except Exception as e:
             raise Exception("An error occured in 'get_all_leads' call", str(e))
         
-    def add_leads_entry(self, request):
+    async def add_leads_entry(self, request):
         try:
-            data = request.json
+            data = await request.json
             if data:
                 update_entry = LeadsEntry(
                 id = str(uuid.uuid4()),
@@ -38,20 +38,20 @@ class LeadsInfoProvider:
         except Exception as e:
             raise Exception("An error occured in 'add_leads_entry' call", str(e))
         
-    def delete_leads_entry(self, id):
+    async def delete_leads_entry(self, id):
         try:
             self.mongo_client.delete_one_item_from_collection(self.database_name, self.collection_name, {"id": id})
         except Exception as e:
             raise Exception("An error occured in 'delete_leads_entry' call", str(e))
         
-    def find_leads_entry(self, id):
+    async def find_leads_entry(self, id):
         try:
             entry = self.mongo_client.find_one_item_from_collection(self.database_name, self.collection_name, {"id": id})
             return entry
         except Exception as e:
             raise Exception("An error occured in 'edit_leads_entry' call", str(e))
 
-    def update_leads_entry(self, id, data: dict):
+    async def update_leads_entry(self, id, data: dict):
         try:
             # set updated timestamp
             data = data.copy() if data else {}

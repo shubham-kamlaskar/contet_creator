@@ -193,3 +193,20 @@ session_id
 session_id
   Input should be a valid string [type=string_type, input_value=0, input_type=int]
     For further information visit https://errors.pydantic.dev/2.13/v/string_type
+2026-05-29 14:01:58,549 - ERROR - An error occured in lead caller: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2026-05-29 14:02:01,345 - ERROR - An error occured in lead caller: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2026-05-29 14:03:27,932 - ERROR - An error occured in lead caller: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2026-05-29 14:18:41,309 - ERROR - An error occured in lead caller: 'coroutine' object is not iterable
+2026-05-29 14:20:26,809 - ERROR - An error occured in lead caller: 'coroutine' object is not iterable

@@ -1,4 +1,4 @@
-from flask import Flask
+from quart import Quart
 import warnings
 
 from src.routes.conversation_route import conversation_bp
@@ -6,7 +6,7 @@ from src.routes.leads_routes import leads_management_bp
 
 warnings.filterwarnings("ignore")
 
-app = Flask(__name__)
+app = Quart(__name__)
 
 app.register_blueprint(conversation_bp)
 

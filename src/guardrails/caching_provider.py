@@ -10,7 +10,7 @@ class CachingMechanism:
                                  "good afternoon": "Hello! How can I help you today?"}
                                    
         
-    def check_cached_response(self, user_query):
+    async def check_cached_response(self, user_query):
         try:
             response = {}
             for i,v  in self.frequent_questions.items():

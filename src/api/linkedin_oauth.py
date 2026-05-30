@@ -4,7 +4,7 @@ from urllib.parse import urlencode
 
 import requests
 from dotenv import load_dotenv
-from flask import Flask, redirect, request, session, url_for, render_template_string
+from quart import Quart, redirect, request, session, url_for, render_template_string
 
 load_dotenv()
 
@@ -13,8 +13,8 @@ LINKEDIN_CLIENT_SECRET = os.getenv('LINKEDIN_CLIENT_SECRET')
 REDIRECT_URI = os.getenv('LINKEDIN_REDIRECT_URI', 'http://localhost:5000/callback')
 SCOPES = ['openid', 'profile', 'email', 'w_member_social']
 
-app = Flask(__name__)
-app.secret_key = os.getenv('FLASK_SECRET_KEY', secrets.token_urlsafe(32))
+app = Quart(__name__)
+app.secret_key = os.getenv('quart_SECRET_KEY', secrets.token_urlsafe(32))
 
 AUTH_URL = 'https://www.linkedin.com/oauth/v2/authorization'
 TOKEN_URL = 'https://www.linkedin.com/oauth/v2/accessToken'
