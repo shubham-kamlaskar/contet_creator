@@ -7,7 +7,7 @@ conversation_bp = Blueprint("conversation_bp", __name__, static_folder="static",
 
 
 @conversation_bp.route("/chat", methods= ['GET'])
-async def home():
+def home():
     try:
         return render_template("chat.html")
     except Exception as e:
@@ -15,9 +15,9 @@ async def home():
         raise Exception(f"An error occured in home caller: {str(e)}")
 
 @conversation_bp.route("/response", methods=['POST'])
-async def chat():
+def chat():
     try:
-        response = await internal_conversations(request)
+        response = internal_conversations(request)
 
         return jsonify({
             "status": "success",
@@ -30,7 +30,7 @@ async def chat():
         raise Exception(f"An error occured in chat caller: {str(e)}")
 
 @conversation_bp.route("/newchat", methods=['POST'])
-async def newchat():
+def newchat():
     try:
         session_id = str(uuid.uuid4())
         return jsonify({

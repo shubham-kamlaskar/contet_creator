@@ -14,7 +14,7 @@ collection_name = str(os.getenv("COLLECTION_NAME"))
 
 message_id = 0
 
-async def update_conversations_in_db(data: dict):
+def update_conversations_in_db(data: dict):
     try:
         global message_id
         message_id += 1

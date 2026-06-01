@@ -9,7 +9,7 @@ class LLMProvider:
         self.llm_model_name = str(os.getenv('LLM_MODEL_NAME'))
         self.llm_temperature = float(os.getenv('LLM_TEMPERATURE'))
         
-    async def llm_client(self):
+    def llm_client(self):
         try:
             llm = ChatOllama(
                 model=self.llm_model_name,

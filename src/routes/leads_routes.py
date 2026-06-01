@@ -7,9 +7,9 @@ leads_management_bp = Blueprint('leads_management_bp', __name__, static_folder="
 leads_info_provider = LeadsInfoProvider()
 
 @leads_management_bp.route('/', methods=['GET'])
-async def lead():
+def lead():
     try:
-        leads = await leads_info_provider.get_all_leads()
+        leads = leads_info_provider.get_all_leads()
         return render_template('home.html', leads=leads)
     except Exception as e:
         logger.error(f"An error occured in lead caller: {str(e)}")
@@ -18,16 +18,16 @@ async def lead():
 
 # Add lead
 @leads_management_bp.route("/add_lead", methods=["POST"])
-async def add_lead():
+def add_lead():
     try:
-        data = await request.get_json()
+        data = request.get_json()
         if not data:
             return jsonify({
                 "status": "error",
                 "message": f"Unable to save the data"
             }), 400
         
-        await leads_info_provider.add_leads_entry(data)
+        leads_info_provider.add_leads_entry(data)
         
         return jsonify({
             "status": "success",
@@ -44,7 +44,7 @@ async def add_lead():
 
 # Delete lead
 @leads_management_bp.route("/delete_lead/<id>", methods=["DELETE"])
-async def delete_lead(id):
+def delete_lead(id):
     try:
         if not id:
             return jsonify({
@@ -52,7 +52,7 @@ async def delete_lead(id):
                 "message": "Lead ID is required"
             }), 400
         
-        await leads_info_provider.delete_leads_entry(id)
+        leads_info_provider.delete_leads_entry(id)
         
         return jsonify({
             "status": "success",
@@ -69,7 +69,7 @@ async def delete_lead(id):
 
 # Edit lead
 @leads_management_bp.route("/edit_lead/<id>", methods=["PUT"])
-async def edit_lead(id):
+def edit_lead(id):
     try:
         if not id:
             return jsonify({
@@ -77,14 +77,14 @@ async def edit_lead(id):
                 "message": "Lead ID is required"
             }), 400
         
-        data = await request.get_json()
+        data = t.get_json()
         if not data:
             return jsonify({
                 "status": "error",
                 "message": "No data provided"
             }), 400
         
-        await leads_info_provider.update_leads_entry(id, data)
+        leads_info_provider.update_leads_entry(id, data)
         
         return jsonify({
             "status": "success",
@@ -101,7 +101,7 @@ async def edit_lead(id):
 
 # Get single lead (used by frontend to populate edit form)
 @leads_management_bp.route("/get_lead/<id>", methods=["GET"])
-async def get_lead(id):
+def get_lead(id):
     try:
         if not id:
             return jsonify({
@@ -109,7 +109,7 @@ async def get_lead(id):
                 "message": "Lead ID is required"
             }), 400
         
-        entry = await leads_info_provider.find_leads_entry(id)
+        entry = leads_info_provider.find_leads_entry(id)
         if not entry:
             return jsonify({
                 "status": "error",

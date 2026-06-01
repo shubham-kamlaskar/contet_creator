@@ -26,11 +26,11 @@ class AgentProvider:
         self.session_id = "81d9c347-f032-455e-9805-77e6e9198abc"
         
 
-    async def get_agent_client(self):
+    def get_agent_client(self):
         try:
             if self.agent is None:  
                 self.agent = create_agent(
-                    model= await llm_provider.llm_client(),
+                    model= llm_provider.llm_client(),
                     tools=getTools,
                     system_prompt=(Prompt.DEFAULT_SYSTEM_PROMPT + Prompt.RESPONSE_FORMATTING + Prompt.CONTENT_CREATION_GUIDELINES + Prompt.GENERAL_INFO + Prompt.INFO_NOT_AVAILABLE),
                     checkpointer=memory_checkpointer,
@@ -42,26 +42,26 @@ class AgentProvider:
             logger.error(f"Error initializing agent client: {str(e)}")
             raise Exception(f"Error initializing agent client: {str(e)}")
         
-    async def get_agent_response(self, user_query: str):
+    def get_agent_response(self, user_query: str, session_id: str):
         try:
             if self.agent is None:
-                await self.get_agent_client()
+                self.get_agent_client()
                 
-            output = await self.agent.ainvoke(
+            output = self.agent.invoke(
                 {
                     "messages": [{"role": "user", "content": user_query}],
                 },
-                    config ={"configurable": {"thread_id": "self.session_id"}},
+                    config ={"configurable": {"thread_id": session_id}},
                     version="v2"
             )
-            return await self._generated_response(user_query, output)
+            return self._generated_response(user_query, output)
             
         except Exception as e:
             logger.error(f"Error getting agent response: {str(e)}")
             raise Exception(f"Error getting agent response: {str(e)}")
         
     
-    async def _generated_response(self, user_query, output):
+    def _generated_response(self, user_query, output):
         if output:
                 is_interrupts = output.interrupts
                 human_intervisions = []

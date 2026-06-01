@@ -6,7 +6,7 @@ interview_bp = Blueprint("interview_bp", __name__, static_folder="static", templ
 
 
 @interview_bp.route("/interview", methods= ['GET'])
-async def interview():
+def interview():
     try:
         return render_template("interview-prep.html")
     except Exception as e:
@@ -14,9 +14,9 @@ async def interview():
         raise Exception(f"An error occured in interview caller: {str(e)}")
     
 @interview_bp.route("/prep_kit", methods=['POST'])
-async def prep_kit():
+def prep_kit():
     try:
-        result = await generate_prep_kit(request)
+        result = generate_prep_kit(request)
 
         if not isinstance(result, dict):
             return jsonify({

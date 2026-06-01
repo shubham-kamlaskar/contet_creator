@@ -252,3 +252,9 @@ with app.app_context(). See the documentation for more information.
 2026-06-01 15:19:19,750 - ERROR - Error getting agent response: Event loop is closed
 2026-06-01 15:19:19,750 - ERROR - An error occured in internal_conversations caller: Error getting agent response: Event loop is closed
 2026-06-01 15:19:19,750 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: Error getting agent response: Event loop is closed
+2026-06-01 15:21:37,787 - ERROR - Error getting agent response: 'coroutine' object has no attribute 'interrupts'
+2026-06-01 15:21:37,787 - ERROR - An error occured in internal_conversations caller: Error getting agent response: 'coroutine' object has no attribute 'interrupts'
+2026-06-01 15:21:37,787 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: Error getting agent response: 'coroutine' object has no attribute 'interrupts'
+2026-06-01 15:24:40,489 - ERROR - An error occured in internal_conversations caller: AgentProvider.get_agent_response() missing 1 required positional argument: 'session_id'
+2026-06-01 15:24:40,489 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: AgentProvider.get_agent_response() missing 1 required positional argument: 'session_id'
+2026-06-01 15:53:18,467 - ERROR - An error occured in edit_lead caller: name 't' is not defined
