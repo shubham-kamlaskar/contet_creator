@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 from langchain_ollama import ChatOllama
-from src.util.log_adapter import logger
+# from src.util.log_adapter import logger
 
 class LLMProvider:
     def __init__(self):
@@ -19,5 +19,9 @@ class LLMProvider:
             
             return llm
         except Exception as e:
-            logger.error(f"Error initializing Ollama llm_client", str(e))
+            # logger.error(f"Error initializing Ollama llm_client", str(e))
             raise Exception(f"Error initializing Ollama llm_client", str(e))
+
+# if __name__ == "__main__":
+#     llm_provider = LLMProvider().llm_client().invoke([{"role": "user", "content": "What is the capital of France?"}])
+#     print(llm_provider.content)

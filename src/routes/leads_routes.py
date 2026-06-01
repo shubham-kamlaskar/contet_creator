@@ -77,7 +77,7 @@ def edit_lead(id):
                 "message": "Lead ID is required"
             }), 400
         
-        data = t.get_json()
+        data = request.get_json()
         if not data:
             return jsonify({
                 "status": "error",

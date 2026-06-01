@@ -258,3 +258,5 @@ with app.app_context(). See the documentation for more information.
 2026-06-01 15:24:40,489 - ERROR - An error occured in internal_conversations caller: AgentProvider.get_agent_response() missing 1 required positional argument: 'session_id'
 2026-06-01 15:24:40,489 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: AgentProvider.get_agent_response() missing 1 required positional argument: 'session_id'
 2026-06-01 15:53:18,467 - ERROR - An error occured in edit_lead caller: name 't' is not defined
+2026-06-01 16:53:22,692 - ERROR - An error occured in edit_lead caller: name 't' is not defined
+2026-06-01 16:54:45,576 - ERROR - An error occured in edit_lead caller: name 't' is not defined

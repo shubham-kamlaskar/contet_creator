@@ -768,7 +768,7 @@
         </div>
       </div>
 
-      <button class="gen-btn" id="genBtn" onclick="generateKit()">
+      <button class="gen-btn" id="genBtn" onclick="generateKit()" type="submit">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>
         Generate Prep Kit
       </button>
@@ -859,73 +859,7 @@
     }, 900);
   }
 
-  // ── Build prompt ───────────────────────────────
-  function buildPrompt(inp) {
-    const jdSection = inp.jd ? `\n\nJOB DESCRIPTION:\n${inp.jd}` : '';
-    const companySection = inp.company ? `\nTarget Company: ${inp.company}` : '';
-    const focusSection = inp.focus.length ? `\nFocus Areas: ${inp.focus.join(', ')}` : '';
-
-    return `You are an expert interview coach. Generate a comprehensive interview preparation kit for:
-
-Role: ${inp.jobTitle}
-Domain: ${inp.domain}
-Experience Level: ${inp.yoe} years
-Interview Round: ${inp.round}
-Difficulty: ${inp.difficulty}
-Number of Questions: ${inp.count}${companySection}${focusSection}${jdSection}
-
-Produce a COMPLETE preparation kit in the following EXACT JSON structure. Return ONLY the JSON, no markdown fences, no preamble:
-
-{
-  "summary": {
-    "role": "${inp.jobTitle}",
-    "domain": "${inp.domain}",
-    "yoe": "${inp.yoe}",
-    "round": "${inp.round}",
-    "difficulty": "${inp.difficulty}",
-    "company": "${inp.company || 'General'}"
-  },
-  "questions": [
-    {
-      "id": 1,
-      "text": "Question text here",
-      "category": "Technical|Behavioural|System Design|HR",
-      "difficulty": "Easy|Medium|Hard|Expert",
-      "hint": "Brief hint or what the interviewer is testing"
-    }
-  ],
-  "answer_frameworks": "## Answer Frameworks & Tips\n\nDetailed markdown with STAR method, common patterns, how to structure answers for this round and role. Include specific frameworks relevant to the round type.",
-  "key_concepts": "## Key Concepts to Revise\n\nMarkdown list of must-know topics, concepts, tools, and technologies for this role/domain/experience level. Be specific.",
-  "dos_donts": "## Do's & Don'ts\n\nMarkdown table or list of specific dos and don'ts for this interview type and company (if given).",
-  "sample_answers": "## Sample Answer Walkthroughs\n\nPick 3 of the generated questions and provide full model answers demonstrating best practices.",
-  "preparation_plan": "## 7-Day Preparation Plan\n\nDay-by-day study plan tailored to the role, experience level, and focus areas. Include specific tasks and time estimates per day."
-}
-
-Generate exactly ${inp.count} questions. Make them highly specific to the role, domain, experience level, and any JD content provided. Vary difficulty appropriately.`;
-  }
-
-  // ── Card color helpers ─────────────────────────
-  const catColors = {
-    'Technical':     { bg: '#dbeafe', color: '#1d4ed8' },
-    'Behavioural':   { bg: '#dcfce7', color: '#166534' },
-    'System Design': { bg: '#ede9fe', color: '#4c1d95' },
-    'HR':            { bg: '#fef3c7', color: '#92400e' },
-  };
-  const diffColors = {
-    'Easy':   { bg: '#dcfce7', color: '#166534' },
-    'Medium': { bg: '#fef3c7', color: '#92400e' },
-    'Hard':   { bg: '#fee2e2', color: '#991b1b' },
-    'Expert': { bg: '#ede9fe', color: '#4c1d95' },
-  };
-  const sectionMeta = {
-    questions:         { icon: '❓', title: 'Interview Questions', colorBg: '#dbeafe', colorText: '#1d4ed8' },
-    answer_frameworks: { icon: '🧩', title: 'Answer Frameworks & Strategy', colorBg: '#ede9fe', colorText: '#4c1d95' },
-    key_concepts:      { icon: '📚', title: 'Key Concepts to Revise', colorBg: '#dcfce7', colorText: '#166534' },
-    dos_donts:         { icon: '✅', title: "Do's & Don'ts", colorBg: '#fef3c7', colorText: '#92400e' },
-    sample_answers:    { icon: '💡', title: 'Sample Answer Walkthroughs', colorBg: '#f0fdfa', colorText: '#0f766e' },
-    preparation_plan:  { icon: '📅', title: '7-Day Preparation Plan', colorBg: '#fff1f2', colorText: '#9f1239' },
-  };
-
+  
   // ── Copy to clipboard ──────────────────────────
   function copyText(btn, text) {
     navigator.clipboard.writeText(text).then(() => {
@@ -1069,14 +1003,42 @@ Generate exactly ${inp.count} questions. Make them highly specific to the role, 
     animateLoading();
 
     try {
-      const response = await fetch('/prep_kit', {
+    const response = await fetch('/prep_kit', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify(inp)
-      });
-      const data = await response.json();
-        }
-      }
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    clearInterval(loadingTimer);
+
+    renderKit(data);
+
+} catch (error) {
+    console.error('Error generating prep kit:', error);
+
+    document.getElementById('loadingCard').style.display = 'none';
+
+    alert('Failed to generate prep kit. Please try again.');
+
+} finally {
+    btn.disabled = false;
+    btn.innerHTML = `
+        <svg width="16" height="16" fill="none" stroke="currentColor"
+             stroke-width="2.5" viewBox="0 0 24 24">
+            <path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/>
+        </svg>
+        Generate Prep Kit
+    `;
+}
+}
 </script>
 
 </body>
