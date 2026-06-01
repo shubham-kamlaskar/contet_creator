@@ -1,17 +1,19 @@
-from quart import Blueprint, render_template, request, jsonify
+from flask import Blueprint, render_template, request, jsonify
 from src.database.provider.leads_info import LeadsInfoProvider
 from src.util.log_adapter import logger
 
 leads_management_bp = Blueprint('leads_management_bp', __name__, static_folder="static", template_folder="templates")
 
+leads_info_provider = LeadsInfoProvider()
+
 @leads_management_bp.route('/', methods=['GET'])
 async def lead():
     try:
-        leads = LeadsInfoProvider().get_all_leads()
-        return await render_template('home.html', leads=leads)
+        leads = await leads_info_provider.get_all_leads()
+        return render_template('home.html', leads=leads)
     except Exception as e:
         logger.error(f"An error occured in lead caller: {str(e)}")
-        return await render_template('home.html', leads=[])
+        return render_template('home.html', leads=[])
 
 
 # Add lead
@@ -25,7 +27,7 @@ async def add_lead():
                 "message": f"Unable to save the data"
             }), 400
         
-        LeadsInfoProvider().add_leads_entry(request)
+        await leads_info_provider.add_leads_entry(data)
         
         return jsonify({
             "status": "success",
@@ -50,7 +52,7 @@ async def delete_lead(id):
                 "message": "Lead ID is required"
             }), 400
         
-        LeadsInfoProvider().delete_leads_entry(id)
+        await leads_info_provider.delete_leads_entry(id)
         
         return jsonify({
             "status": "success",
@@ -75,14 +77,14 @@ async def edit_lead(id):
                 "message": "Lead ID is required"
             }), 400
         
-        data = request.json
+        data = await request.get_json()
         if not data:
             return jsonify({
                 "status": "error",
                 "message": "No data provided"
             }), 400
         
-        LeadsInfoProvider().update_leads_entry(id, data)
+        await leads_info_provider.update_leads_entry(id, data)
         
         return jsonify({
             "status": "success",
@@ -107,7 +109,7 @@ async def get_lead(id):
                 "message": "Lead ID is required"
             }), 400
         
-        entry = LeadsInfoProvider().find_leads_entry(id)
+        entry = await leads_info_provider.find_leads_entry(id)
         if not entry:
             return jsonify({
                 "status": "error",

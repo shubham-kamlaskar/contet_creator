@@ -210,3 +210,45 @@ the current application. To solve this, set up an application context
 with app.app_context(). See the documentation for more information.
 2026-05-29 14:18:41,309 - ERROR - An error occured in lead caller: 'coroutine' object is not iterable
 2026-05-29 14:20:26,809 - ERROR - An error occured in lead caller: 'coroutine' object is not iterable
+2026-05-30 08:05:22,216 - ERROR - An error occured in lead caller: 'coroutine' object is not iterable
+2026-05-30 08:05:34,231 - ERROR - An error occured in lead caller: 'coroutine' object is not iterable
+2026-05-30 08:06:21,960 - ERROR - An error occured in lead caller: 'coroutine' object is not iterable
+2026-05-30 08:06:37,090 - ERROR - An error occured in lead caller: 'coroutine' object is not iterable
+2026-05-30 08:07:03,168 - ERROR - An error occured in lead caller: 'coroutine' object is not iterable
+2026-05-30 08:08:42,534 - ERROR - An error occured in lead caller: 'coroutine' object is not iterable
+2026-05-30 08:09:04,758 - ERROR - An error occured in lead caller: 'coroutine' object is not iterable
+2026-05-30 15:34:37,379 - ERROR - An error occured in lead caller: 'coroutine' object is not iterable
+2026-05-30 15:36:43,017 - ERROR - An error occured in lead caller: 'coroutine' object is not iterable
+2026-05-30 15:40:22,708 - ERROR - An error occured in lead caller: 'coroutine' object is not iterable
+2026-05-30 15:40:35,870 - ERROR - An error occured in lead caller: 'coroutine' object is not iterable
+2026-05-30 15:54:07,179 - ERROR - An error occured in add_lead caller: object dict can't be used in 'await' expression
+2026-05-30 15:54:50,964 - ERROR - An error occured in add_lead caller: object dict can't be used in 'await' expression
+2026-05-30 15:55:04,381 - ERROR - An error occured in add_lead caller: object dict can't be used in 'await' expression
+2026-05-30 15:56:09,456 - ERROR - An error occured in add_lead caller: object dict can't be used in 'await' expression
+2026-05-30 16:02:06,675 - ERROR - An error occured in add_lead caller: object dict can't be used in 'await' expression
+2026-06-01 11:30:16,966 - ERROR - An error occured in internal_conversations caller: object dict can't be used in 'await' expression
+2026-06-01 11:30:16,966 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: object dict can't be used in 'await' expression
+2026-06-01 11:32:02,983 - ERROR - Error getting agent response: Asynchronous implementation of awrap_tool_call is not available. You are likely encountering this error because you defined only the sync version (wrap_tool_call) and invoked your agent in an asynchronous context (e.g., using `astream()` or `ainvoke()`). To resolve this, either: (1) subclass AgentMiddleware and implement the asynchronous awrap_tool_call method, (2) use the @wrap_tool_call decorator on a standalone async function, or (3) invoke your agent synchronously using `stream()` or `invoke()`.
+2026-06-01 11:32:02,983 - ERROR - An error occured in internal_conversations caller: Error getting agent response: Asynchronous implementation of awrap_tool_call is not available. You are likely encountering this error because you defined only the sync version (wrap_tool_call) and invoked your agent in an asynchronous context (e.g., using `astream()` or `ainvoke()`). To resolve this, either: (1) subclass AgentMiddleware and implement the asynchronous awrap_tool_call method, (2) use the @wrap_tool_call decorator on a standalone async function, or (3) invoke your agent synchronously using `stream()` or `invoke()`.
+2026-06-01 11:32:02,984 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: Error getting agent response: Asynchronous implementation of awrap_tool_call is not available. You are likely encountering this error because you defined only the sync version (wrap_tool_call) and invoked your agent in an asynchronous context (e.g., using `astream()` or `ainvoke()`). To resolve this, either: (1) subclass AgentMiddleware and implement the asynchronous awrap_tool_call method, (2) use the @wrap_tool_call decorator on a standalone async function, or (3) invoke your agent synchronously using `stream()` or `invoke()`.
+2026-06-01 11:33:05,090 - ERROR - Error getting agent response: Event loop is closed
+2026-06-01 11:33:05,090 - ERROR - An error occured in internal_conversations caller: Error getting agent response: Event loop is closed
+2026-06-01 11:33:05,090 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: Error getting agent response: Event loop is closed
+2026-06-01 11:34:24,706 - ERROR - Error getting agent response: Asynchronous implementation of awrap_tool_call is not available. You are likely encountering this error because you defined only the sync version (wrap_tool_call) and invoked your agent in an asynchronous context (e.g., using `astream()` or `ainvoke()`). To resolve this, either: (1) subclass AgentMiddleware and implement the asynchronous awrap_tool_call method, (2) use the @wrap_tool_call decorator on a standalone async function, or (3) invoke your agent synchronously using `stream()` or `invoke()`.
+2026-06-01 11:34:24,706 - ERROR - An error occured in internal_conversations caller: Error getting agent response: Asynchronous implementation of awrap_tool_call is not available. You are likely encountering this error because you defined only the sync version (wrap_tool_call) and invoked your agent in an asynchronous context (e.g., using `astream()` or `ainvoke()`). To resolve this, either: (1) subclass AgentMiddleware and implement the asynchronous awrap_tool_call method, (2) use the @wrap_tool_call decorator on a standalone async function, or (3) invoke your agent synchronously using `stream()` or `invoke()`.
+2026-06-01 11:34:24,706 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: Error getting agent response: Asynchronous implementation of awrap_tool_call is not available. You are likely encountering this error because you defined only the sync version (wrap_tool_call) and invoked your agent in an asynchronous context (e.g., using `astream()` or `ainvoke()`). To resolve this, either: (1) subclass AgentMiddleware and implement the asynchronous awrap_tool_call method, (2) use the @wrap_tool_call decorator on a standalone async function, or (3) invoke your agent synchronously using `stream()` or `invoke()`.
+2026-06-01 11:50:12,965 - ERROR - An error occured in update_conversations_in_db call: object NoneType can't be used in 'await' expression
+2026-06-01 11:50:12,965 - ERROR - An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: object NoneType can't be used in 'await' expression
+2026-06-01 11:50:12,965 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: object NoneType can't be used in 'await' expression
+2026-06-01 11:54:58,604 - ERROR - An error occured in update_conversations_in_db call: object NoneType can't be used in 'await' expression
+2026-06-01 11:54:58,619 - ERROR - An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: object NoneType can't be used in 'await' expression
+2026-06-01 11:54:58,620 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: An error occured in update_conversations_in_db call: object NoneType can't be used in 'await' expression
+2026-06-01 11:57:40,262 - ERROR - Error getting agent response: Event loop is closed
+2026-06-01 11:57:40,262 - ERROR - An error occured in internal_conversations caller: Error getting agent response: Event loop is closed
+2026-06-01 11:57:40,262 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: Error getting agent response: Event loop is closed
+2026-06-01 13:17:35,689 - ERROR - Error getting agent response: Event loop is closed
+2026-06-01 13:17:35,689 - ERROR - An error occured in internal_conversations caller: Error getting agent response: Event loop is closed
+2026-06-01 13:17:35,689 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: Error getting agent response: Event loop is closed
+2026-06-01 15:19:19,750 - ERROR - Error getting agent response: Event loop is closed
+2026-06-01 15:19:19,750 - ERROR - An error occured in internal_conversations caller: Error getting agent response: Event loop is closed
+2026-06-01 15:19:19,750 - ERROR - An error occured in chat caller: An error occured in internal_conversations caller: Error getting agent response: Event loop is closed

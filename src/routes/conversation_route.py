@@ -1,4 +1,4 @@
-from quart import render_template, request, jsonify, Blueprint
+from flask import render_template, request, jsonify, Blueprint
 import uuid
 from src.processor.conversation_flow_processor import internal_conversations
 from src.util.log_adapter import logger
@@ -9,7 +9,7 @@ conversation_bp = Blueprint("conversation_bp", __name__, static_folder="static",
 @conversation_bp.route("/chat", methods= ['GET'])
 async def home():
     try:
-        return await render_template("chat.html")
+        return render_template("chat.html")
     except Exception as e:
         logger.error(f"An error occured in home caller: {str(e)}")
         raise Exception(f"An error occured in home caller: {str(e)}")

@@ -1,12 +1,16 @@
+import inspect
 from langchain.agents.middleware import wrap_tool_call
 from langchain.messages import ToolMessage
 
 
 @wrap_tool_call
-def handle_tool_errors(request, handler):
+async def handle_tool_errors(request, handler):
     """Handle tool execution errors with custom messages."""
     try:
-        return handler(request)
+        result = handler(request)
+        if inspect.isawaitable(result):
+            result = await result
+        return result
     except Exception as e:
         # Return a custom error message to the model
         return ToolMessage(

@@ -12,7 +12,7 @@ class LeadsInfoProvider:
     def __init__(self):
         self.mongo_client = MongoDBClient()
         self.database_name = str(os.getenv("LEADS_DB_NAME"))
-        self.collection_name = str(os.getenv("LEADES_COLLECTION_NAME"))
+        self.collection_name = str(os.getenv("LEADS_COLLECTION_NAME"))
         
     async def get_all_leads(self):
         try:
@@ -21,9 +21,8 @@ class LeadsInfoProvider:
         except Exception as e:
             raise Exception("An error occured in 'get_all_leads' call", str(e))
         
-    async def add_leads_entry(self, request):
+    async def add_leads_entry(self, data: dict):
         try:
-            data = await request.json
             if data:
                 update_entry = LeadsEntry(
                 id = str(uuid.uuid4()),

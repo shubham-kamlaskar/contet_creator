@@ -303,6 +303,8 @@
                 <span class="badge w-cancelled">{{ ws }}</span>
               {% elif ws == 'Rejected' %}
                 <span class="badge w-rejected">{{ ws }}</span>
+                {% elif ws == 'Resume Review' %}
+                <span class="badge w-discussion">{{ ws }}</span>
               {% else %}
                 <span class="text-slate-400 text-xs">—</span>
               {% endif %}
@@ -321,6 +323,8 @@
               {% elif pay == 'Pending' %}
                 <span class="badge pay-pending">{{ pay }}</span>
               {% elif pay == 'Partially Paid' %}
+                <span class="badge pay-partial">{{ pay }}</span>
+                {% elif pay == 'Free' %}
                 <span class="badge pay-partial">{{ pay }}</span>
               {% else %}
                 <span class="text-slate-300 text-xs">—</span>
@@ -494,9 +498,10 @@
             <option value="Interest Received">Interest Received</option>
             <option value="Initial Talks">Initial Talks</option>
             <option value="Resume Shared">Resume Shared</option>
+            <option value="Follow Up">Follow Up</option>
             <option value="Payment Discussion">Payment Discussion</option>
             <option value="Deal">Deal</option>
-            <option value="Cancelled">Cancelled</option>
+            <option value="Cancelled">Rejected</option>
             <option value="Hold">Hold</option>
             <option value="No Response">No Response</option>
           </select>
@@ -514,6 +519,7 @@
             <option value="Cancelled">Cancelled</option>
             <option value="Delivered">Delivered</option>
             <option value="Rejected">Rejected</option>
+            <option value="Resume Review">Resume Review</option>
           </select>
         </div>
 
@@ -524,6 +530,7 @@
             <option value="Pending">Pending</option>
             <option value="Paid">Paid</option>
             <option value="Partially Paid">Partially Paid</option>
+            <option value="Free">Free</option>
           </select>
         </div>
       </div>

@@ -10,7 +10,7 @@ async def internal_conversations(request):
     try:
         user_query = ""
         response = {}
-        data = await request.get_json()
+        data = request.get_json()
         if data:
             user_query = data.get("message", "")
             token_used = int(data.get('tokens_used', 0))

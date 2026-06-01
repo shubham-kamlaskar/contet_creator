@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Interview Prep Kit — AI-Powered</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Sore:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <style>
+    * { font-family: 'DM Sans', sans-serif; }
+    :root {
+      --bg:        #f0f2f7;
+      --surface:   #ffffff;
+      --surface-2: #f8fafc;
+      --border:    #e2e8f0;
+      --border-2:  #edf0f5;
+      --text:      #1e293b;
+      --text-muted:#64748b;
+      --text-faint:#94a3b8;
+      --accent:    #4f46e5;
+      --accent-2:  #6366f1;
+      --accent-bg: #ede9fe;
+      --accent-lite:#eef2ff;
+      --shadow-sm: 0 8px 24px rgba(15, 23, 42, 0.08);
+      --shadow-md: 0 16px 40px rgba(15, 23, 42, 0.12);
+      --shadow-lg: 0 24px 70px rgba(15, 23, 42, 0.14);
+      --radius-lg: 20px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      line-height: 1.65;
+    }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      height: 64px;
+      padding: 0 24px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+    .topbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Sora', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 16px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 12px 26px rgba(99, 102, 241, 0.18);
+    }
+    .topbar-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: var(--accent-lite);
+      border: 1px solid #dbe0ff;
+      color: var(--accent-2);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .topbar-badge::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2.2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+
+    /* ── PAGE LAYOUT ── */
+    .page-wrap {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 30px 24px 60px;
+      display: grid;
+      grid-template-columns: minmax(320px, 420px) 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .form-panel,
+    .output-panel,
+    .kit-card,
+    .empty-state,
+    .loading-card {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+    }
+
+    /* ── LEFT PANEL (FORM) ── */
+    .form-panel {
+      position: sticky;
+      top: 88px;
+      overflow: hidden;
+    }
+    .form-panel-header {
+      padding: 26px 24px 22px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(135deg, #f8fbff, #ffffff);
+    }
+    .form-panel-header h2 {
+      margin-bottom: 8px;
+      font-family: 'Sore', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .form-panel-header p {
+      max-width: 310px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .form-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .field { display: flex; flex-direction: column; gap: 8px; }
+    .field-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--text-muted);
+    }
+    .field-label .req { color: #ef4444; }
+    .field-hint {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .f-input,
+    .f-select,
+    .f-textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      background: var(--surface-2);
+      color: var(--text);
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    .f-input:focus,
+    .f-select:focus,
+    .f-textarea:focus {
+      border-color: var(--accent);
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+      outline: none;
+    }
+    .f-input::placeholder,
+    .f-textarea::placeholder { color: var(--text-faint); }
+    .f-textarea {
+      min-height: 130px;
+      line-height: 1.75;
+      resize: vertical;
+    }
+    .f-select { cursor: pointer; }
+    .f-select option { background: white; }
+
+    .chip-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .chip-input { display: none; }
+    .chip-label {
+      padding: 9px 16px;
+      border-radius: 999px;
+      border: 1.5px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .18s ease;
+    }
+    .chip-input:checked + .chip-label {
+      background: var(--accent-bg);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .chip-label:hover { border-color: var(--accent-2); color: var(--accent-2); }
+
+    .difficulty-row {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+    .difficulty-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 5px;
+      border-radius: 999px;
+      background: linear-gradient(to right, var(--accent) 0%, var(--accent) 45%, var(--border-2) 45%, var(--border-2) 100%);
+      outline: none;
+      cursor: pointer;
+    }
+    .difficulty-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 3px solid white;
+      box-shadow: 0 4px 16px rgba(79, 70, 229, 0.18);
+      cursor: pointer;
+    }
+    .difficulty-label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 88px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .count-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .count-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      border: 1.5px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text-muted);
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: border-color .18s ease, background .18s ease, color .18s ease;
+    }
+    .count-btn:hover { border-color: var(--accent); color: var(--accent); background: white; }
+    .count-val {
+      font-family: 'Sore', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text);
+      min-width: 38px;
+      text-align: center;
+    }
+
+    .gen-btn {
+      width: 100%;
+      padding: 15px 18px;
+      border: none;
+      border-radius: 18px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: white;
+      font-family: 'Sore', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: .01em;
+      cursor: pointer;
+      transition: transform .1s ease, opacity .18s ease;
+      box-shadow: 0 18px 32px rgba(99, 102, 241, 0.18);
+    }
+    .gen-btn:hover { opacity: .95; }
+    .gen-btn:active { transform: scale(.98); }
+    .gen-btn:disabled { opacity: .55; cursor: default; }
+
+    .output-panel { display: flex; flex-direction: column; gap: 22px; }
+
+    .empty-state,
+    .loading-card {
+      padding: 70px 48px;
+      text-align: center;
+    }
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+    }
+    .empty-icon {
+      width: 78px;
+      height: 78px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--accent-bg), #eef2ff);
+      border: 1px solid #dbe0ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 34px;
+    }
+    .empty-state h3 {
+      font-family: 'Sore', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .empty-state p {
+      max-width: 440px;
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .loading-card {
+      display: none;
+      gap: 16px;
+    }
+    .loader-ring {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: 4px solid rgba(79, 70, 229, 0.18);
+      border-top-color: var(--accent);
+      animation: spin 0.85s linear infinite;
+      margin: 0 auto;
+    }
+    .loading-card h3 {
+      font-family: 'Sore', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .loading-card p { color: var(--text-muted); font-size: 13px; }
+    .loading-steps {
+      display: grid;
+      gap: 12px;
+      max-width: 360px;
+      margin: 0 auto;
+    }
+    .loading-step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 16px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      opacity: .55;
+      transition: all .25s ease;
+    }
+    .loading-step.active {
+      opacity: 1;
+      color: var(--accent);
+      background: #eef2ff;
+      border-color: rgba(99, 102, 241, 0.28);
+    }
+    .loading-step-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .kit-card {
+      overflow: hidden;
+      animation: fadeSlide .35s ease both;
+    }
+    @keyframes fadeSlide { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+    .kit-card-header {
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background .18s ease;
+    }
+    .kit-card-header:hover { background: var(--surface-2); }
+    .kit-card-header-left { display: flex; align-items: center; gap: 14px; }
+    .kit-card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    .kit-card-title {
+      font-family: 'Sore', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .kit-card-sub {
+      margin-top: 4px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .kit-card-count {
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .collapse-icon {
+      color: var(--text-muted);
+      font-size: 14px;
+      transition: transform .25s ease;
+    }
+    .kit-card.collapsed .collapse-icon { transform: rotate(-90deg); }
+    .kit-card-body { padding: 0; }
+    .kit-card.collapsed .kit-card-body { display: none; }
+
+    .q-list { list-style: none; margin: 0; padding: 0; }
+    .q-item {
+      display: flex;
+      gap: 16px;
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border);
+      transition: background .15s ease;
+    }
+    .q-item:last-child { border-bottom: none; }
+    .q-item:hover { background: var(--surface-2); }
+    .q-num {
+      min-width: 32px;
+      height: 32px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Sora', sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      background: #e0e7ff;
+      color: #4338ca;
+    }
+    .q-text {
+      flex: 1;
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    .q-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-top: 10px;
+    }
+    .q-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+    .q-btn {
+      padding: 9px 14px;
+      border-radius: 14px;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: border-color .18s ease, color .18s ease, background .18s ease;
+    }
+    .q-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+
+    .kit-content {
+      padding: 24px;
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.75;
+    }
+    .kit-content h2,
+    .kit-content h3 {
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      color: var(--text);
+      margin: 24px 0 10px;
+    }
+    .kit-content h2 { font-size: 18px; }
+    .kit-content h3 { font-size: 16px; }
+    .kit-content p { margin: 10px 0; }
+    .kit-content ul,
+    .kit-content ol { margin: 10px 0 10px 20px; }
+    .kit-content li { margin: 6px 0; }
+    .kit-content strong { font-weight: 700; }
+    .kit-content code {
+      display: inline-block;
+      background: #eef2ff;
+      color: var(--accent-2);
+      padding: 3px 7px;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+    .kit-content pre {
+      margin: 14px 0;
+      padding: 18px;
+      border-radius: 18px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      overflow-x: auto;
+    }
+    .kit-content blockquote {
+      margin: 16px 0;
+      padding: 16px 20px;
+      border-left: 4px solid var(--accent);
+      background: #eef2ff;
+      border-radius: 16px;
+      color: var(--accent-2);
+    }
+    .kit-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+    .kit-content th,
+    .kit-content td {
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+    .kit-content th { background: var(--surface-2); }
+
+    .meta-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      padding: 18px 22px;
+      background: linear-gradient(135deg, #eef2ff, #f8fbff);
+      border: 1px solid #dbe0ff;
+      border-radius: 20px;
+    }
+    .meta-item { display: flex; align-items: center; gap: 8px; }
+    .meta-label {
+      color: var(--text-faint);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .meta-value {
+      color: var(--accent-2);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .output-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .act-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 18px;
+      border-radius: 16px;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .18s ease;
+    }
+    .act-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+    .act-btn.primary {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+    .act-btn.primary:hover { background: #4338ca; }
+
+    .diff-easy   { background:#dcfce7; color:#166534; }
+    .diff-medium { background:#fef3c7; color:#92400e; }
+    .diff-hard   { background:#fee2e2; color:#991b1b; }
+    .diff-expert { background:#ede9fe; color:#4c1d95; }
+
+    @media (max-width: 900px) {
+      .page-wrap { grid-template-columns: 1fr; padding: 20px 16px 40px; }
+      .form-panel { position: static; top: auto; }
+      .topbar { padding: 0 16px; }
+    }
+  </style>
+</head>
+<body>
+ {% include 'header.html' %}
+
+<div class="page-wrap">
+
+  <!-- ── LEFT: FORM PANEL ── -->
+  <aside class="form-panel">
+    <div class="form-panel-header">
+      <h2>Build Your Prep Kit</h2>
+      <p>Fill in the details and AI will generate a personalised interview preparation package.</p>
+    </div>
+
+    <div class="form-body">
+
+      <!-- Role Title -->
+      <div class="field">
+        <label class="field-label">Job Title <span class="req">*</span></label>
+        <input type="text" id="jobTitle" class="f-input" placeholder="e.g. Senior Software Engineer" />
+      </div>
+
+      <!-- Domain -->
+      <div class="field">
+        <label class="field-label">Domain / Industry <span class="req">*</span></label>
+        <select id="domain" class="f-select f-input">
+          <option value="" disabled selected>Select domain</option>
+          <optgroup label="Technology">
+            <option>Software Engineering</option>
+            <option>Data Science / ML / AI</option>
+            <option>DevOps / Cloud / Infrastructure</option>
+            <option>Cybersecurity</option>
+            <option>Product Management</option>
+            <option>UX / Design</option>
+            <option>QA / Testing</option>
+          </optgroup>
+          <optgroup label="Business">
+            <option>Finance / Banking</option>
+            <option>Marketing / Growth</option>
+            <option>Sales / Business Development</option>
+            <option>Human Resources</option>
+            <option>Operations / Consulting</option>
+            <option>Project / Program Management</option>
+          </optgroup>
+          <optgroup label="Other">
+            <option>Healthcare</option>
+            <option>Legal</option>
+            <option>Education</option>
+            <option>Other</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <!-- YOE -->
+      <div class="field">
+        <label class="field-label">Years of Experience <span class="req">*</span></label>
+        <select id="yoe" class="f-select f-input">
+          <option value="" disabled selected>Select experience level</option>
+          <option value="0-1">Fresher / 0–1 year</option>
+          <option value="1-3">Junior / 1–3 years</option>
+          <option value="3-6">Mid-level / 3–6 years</option>
+          <option value="6-10">Senior / 6–10 years</option>
+          <option value="10+">Lead / Principal / 10+ years</option>
+        </select>
+      </div>
+
+      <!-- Interview Type chips -->
+      <div class="field">
+        <label class="field-label">Interview Round <span class="req">*</span></label>
+        <div class="chip-group">
+          <input type="radio" name="round" id="r-tech" value="Technical" class="chip-input" checked>
+          <label for="r-tech" class="chip-label">Technical</label>
+          <input type="radio" name="round" id="r-beh" value="Behavioural" class="chip-input">
+          <label for="r-beh" class="chip-label">Behavioural</label>
+          <input type="radio" name="round" id="r-sys" value="System Design" class="chip-input">
+          <label for="r-sys" class="chip-label">System Design</label>
+          <input type="radio" name="round" id="r-hr" value="HR / Culture Fit" class="chip-input">
+          <label for="r-hr" class="chip-label">HR / Culture</label>
+          <input type="radio" name="round" id="r-mix" value="Mixed / Final" class="chip-input">
+          <label for="r-mix" class="chip-label">Mixed / Final</label>
+        </div>
+      </div>
+
+      <!-- Difficulty -->
+      <div class="field">
+        <label class="field-label">Difficulty Level</label>
+        <div class="difficulty-row">
+          <input type="range" id="diffSlider" class="difficulty-slider" min="1" max="4" value="2" oninput="updateDifficulty()">
+          <span class="difficulty-label diff-medium" id="diffLabel">Medium</span>
+        </div>
+      </div>
+
+      <!-- Q Count -->
+      <div class="field">
+        <label class="field-label">Number of Questions</label>
+        <div class="count-row">
+          <button class="count-btn" onclick="adjustCount(-5)">−</button>
+          <span class="count-val" id="countVal">15</span>
+          <button class="count-btn" onclick="adjustCount(5)">+</button>
+          <span style="font-size:13px;color:var(--ink-3);">questions</span>
+        </div>
+      </div>
+
+      <!-- JD -->
+      <div class="field">
+        <label class="field-label">
+          Job Description
+          <span class="field-hint">(paste to get targeted questions)</span>
+        </label>
+        <textarea id="jdText" class="f-textarea" placeholder="Paste the full job description here for highly tailored questions and prep material…"></textarea>
+      </div>
+
+      <!-- Company -->
+      <div class="field">
+        <label class="field-label">Target Company <span class="field-hint">(optional)</span></label>
+        <input type="text" id="company" class="f-input" placeholder="e.g. Google, TCS, Startup" />
+      </div>
+
+      <!-- Focus areas chips -->
+      <div class="field">
+        <label class="field-label">Focus Areas <span class="field-hint">(pick any)</span></label>
+        <div class="chip-group" id="focusChips">
+          <input type="checkbox" id="f-ds" value="Data Structures & Algorithms" class="chip-input">
+          <label for="f-ds" class="chip-label">DSA</label>
+          <input type="checkbox" id="f-sys" value="System Design" class="chip-input">
+          <label for="f-sys" class="chip-label">System Design</label>
+          <input type="checkbox" id="f-lld" value="Low Level Design / OOP" class="chip-input">
+          <label for="f-lld" class="chip-label">LLD / OOP</label>
+          <input type="checkbox" id="f-sql" value="SQL / Databases" class="chip-input">
+          <label for="f-sql" class="chip-label">SQL / DB</label>
+          <input type="checkbox" id="f-api" value="API Design / REST" class="chip-input">
+          <label for="f-api" class="chip-label">APIs</label>
+          <input type="checkbox" id="f-cloud" value="Cloud / DevOps" class="chip-input">
+          <label for="f-cloud" class="chip-label">Cloud</label>
+          <input type="checkbox" id="f-star" value="STAR Method / Behavioural" class="chip-input">
+          <label for="f-star" class="chip-label">STAR / Behav.</label>
+          <input type="checkbox" id="f-lead" value="Leadership & Management" class="chip-input">
+          <label for="f-lead" class="chip-label">Leadership</label>
+        </div>
+      </div>
+
+      <button class="gen-btn" id="genBtn" onclick="generateKit()">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>
+        Generate Prep Kit
+      </button>
+
+    </div>
+  </aside>
+
+  <!-- ── RIGHT: OUTPUT PANEL ── -->
+  <div class="output-panel" id="outputPanel">
+
+    <!-- Empty state -->
+    <div class="empty-state" id="emptyState">
+      <div class="empty-icon">📋</div>
+      <h3>Your Prep Kit Will Appear Here</h3>
+      <p>Fill in the form on the left with your role details and click Generate. AI will create a personalised interview preparation package just for you.</p>
+    </div>
+
+    <!-- Loading -->
+    <div class="loading-card" id="loadingCard">
+      <div class="loader-ring"></div>
+      <h3>Crafting Your Prep Kit…</h3>
+      <p>Analysing your profile and generating tailored content</p>
+      <div class="loading-steps">
+        <div class="loading-step" id="ls1"><div class="loading-step-dot"></div>Analysing job description</div>
+        <div class="loading-step" id="ls2"><div class="loading-step-dot"></div>Generating interview questions</div>
+        <div class="loading-step" id="ls3"><div class="loading-step-dot"></div>Building answer frameworks</div>
+        <div class="loading-step" id="ls4"><div class="loading-step-dot"></div>Compiling prep materials</div>
+      </div>
+    </div>
+
+    <!-- Output cards injected here by JS -->
+
+  </div>
+</div>
+
+<script>
+  // ── Difficulty labels ──────────────────────────
+  const diffLevels = ['', 'Easy', 'Medium', 'Hard', 'Expert'];
+  const diffClasses = ['', 'diff-easy', 'diff-medium', 'diff-hard', 'diff-expert'];
+
+  function updateDifficulty() {
+    const val = document.getElementById('diffSlider').value;
+    const lbl = document.getElementById('diffLabel');
+    lbl.textContent = diffLevels[val];
+    lbl.className = 'difficulty-label ' + diffClasses[val];
+    const pct = ((val - 1) / 3) * 100;
+    document.getElementById('diffSlider').style.background =
+      `linear-gradient(to right, var(--teal) 0%, var(--teal) ${pct}%, var(--border-2) ${pct}%, var(--border-2) 100%)`;
+  }
+
+  // ── Question count ─────────────────────────────
+  let qCount = 15;
+  function adjustCount(delta) {
+    qCount = Math.max(5, Math.min(30, qCount + delta));
+    document.getElementById('countVal').textContent = qCount;
+  }
+
+  // ── Collect inputs ─────────────────────────────
+  function getInputs() {
+    const focusChecked = Array.from(document.querySelectorAll('#focusChips .chip-input:checked'))
+                             .map(c => c.value);
+    return {
+      jobTitle: document.getElementById('jobTitle').value.trim(),
+      domain:   document.getElementById('domain').value,
+      yoe:      document.getElementById('yoe').value,
+      round:    document.querySelector('input[name="round"]:checked')?.value || 'Technical',
+      difficulty: diffLevels[document.getElementById('diffSlider').value],
+      count:    qCount,
+      jd:       document.getElementById('jdText').value.trim(),
+      company:  document.getElementById('company').value.trim(),
+      focus:    focusChecked,
+    };
+  }
+
+  // ── Loading steps animation ────────────────────
+  let loadingTimer = null;
+  function animateLoading() {
+    const steps = ['ls1','ls2','ls3','ls4'];
+    let i = 0;
+    steps.forEach(s => document.getElementById(s).classList.remove('active'));
+    loadingTimer = setInterval(() => {
+      if (i < steps.length) {
+        document.getElementById(steps[i]).classList.add('active');
+        i++;
+      } else {
+        clearInterval(loadingTimer);
+      }
+    }, 900);
+  }
+
+  // ── Build prompt ───────────────────────────────
+  function buildPrompt(inp) {
+    const jdSection = inp.jd ? `\n\nJOB DESCRIPTION:\n${inp.jd}` : '';
+    const companySection = inp.company ? `\nTarget Company: ${inp.company}` : '';
+    const focusSection = inp.focus.length ? `\nFocus Areas: ${inp.focus.join(', ')}` : '';
+
+    return `You are an expert interview coach. Generate a comprehensive interview preparation kit for:
+
+Role: ${inp.jobTitle}
+Domain: ${inp.domain}
+Experience Level: ${inp.yoe} years
+Interview Round: ${inp.round}
+Difficulty: ${inp.difficulty}
+Number of Questions: ${inp.count}${companySection}${focusSection}${jdSection}
+
+Produce a COMPLETE preparation kit in the following EXACT JSON structure. Return ONLY the JSON, no markdown fences, no preamble:
+
+{
+  "summary": {
+    "role": "${inp.jobTitle}",
+    "domain": "${inp.domain}",
+    "yoe": "${inp.yoe}",
+    "round": "${inp.round}",
+    "difficulty": "${inp.difficulty}",
+    "company": "${inp.company || 'General'}"
+  },
+  "questions": [
+    {
+      "id": 1,
+      "text": "Question text here",
+      "category": "Technical|Behavioural|System Design|HR",
+      "difficulty": "Easy|Medium|Hard|Expert",
+      "hint": "Brief hint or what the interviewer is testing"
+    }
+  ],
+  "answer_frameworks": "## Answer Frameworks & Tips\n\nDetailed markdown with STAR method, common patterns, how to structure answers for this round and role. Include specific frameworks relevant to the round type.",
+  "key_concepts": "## Key Concepts to Revise\n\nMarkdown list of must-know topics, concepts, tools, and technologies for this role/domain/experience level. Be specific.",
+  "dos_donts": "## Do's & Don'ts\n\nMarkdown table or list of specific dos and don'ts for this interview type and company (if given).",
+  "sample_answers": "## Sample Answer Walkthroughs\n\nPick 3 of the generated questions and provide full model answers demonstrating best practices.",
+  "preparation_plan": "## 7-Day Preparation Plan\n\nDay-by-day study plan tailored to the role, experience level, and focus areas. Include specific tasks and time estimates per day."
+}
+
+Generate exactly ${inp.count} questions. Make them highly specific to the role, domain, experience level, and any JD content provided. Vary difficulty appropriately.`;
+  }
+
+  // ── Card color helpers ─────────────────────────
+  const catColors = {
+    'Technical':     { bg: '#dbeafe', color: '#1d4ed8' },
+    'Behavioural':   { bg: '#dcfce7', color: '#166534' },
+    'System Design': { bg: '#ede9fe', color: '#4c1d95' },
+    'HR':            { bg: '#fef3c7', color: '#92400e' },
+  };
+  const diffColors = {
+    'Easy':   { bg: '#dcfce7', color: '#166534' },
+    'Medium': { bg: '#fef3c7', color: '#92400e' },
+    'Hard':   { bg: '#fee2e2', color: '#991b1b' },
+    'Expert': { bg: '#ede9fe', color: '#4c1d95' },
+  };
+  const sectionMeta = {
+    questions:         { icon: '❓', title: 'Interview Questions', colorBg: '#dbeafe', colorText: '#1d4ed8' },
+    answer_frameworks: { icon: '🧩', title: 'Answer Frameworks & Strategy', colorBg: '#ede9fe', colorText: '#4c1d95' },
+    key_concepts:      { icon: '📚', title: 'Key Concepts to Revise', colorBg: '#dcfce7', colorText: '#166534' },
+    dos_donts:         { icon: '✅', title: "Do's & Don'ts", colorBg: '#fef3c7', colorText: '#92400e' },
+    sample_answers:    { icon: '💡', title: 'Sample Answer Walkthroughs', colorBg: '#f0fdfa', colorText: '#0f766e' },
+    preparation_plan:  { icon: '📅', title: '7-Day Preparation Plan', colorBg: '#fff1f2', colorText: '#9f1239' },
+  };
+
+  // ── Copy to clipboard ──────────────────────────
+  function copyText(btn, text) {
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = btn.textContent;
+      btn.textContent = '✓ Copied';
+      btn.style.borderColor = 'var(--teal)';
+      btn.style.color = 'var(--teal)';
+      setTimeout(() => { btn.textContent = orig; btn.style.borderColor = ''; btn.style.color = ''; }, 2000);
+    });
+  }
+
+  // ── Toggle collapse ────────────────────────────
+  function toggleCard(card) {
+    card.classList.toggle('collapsed');
+  }
+
+  // ── Render output ──────────────────────────────
+  function renderKit(data) {
+    const panel = document.getElementById('outputPanel');
+
+    // Clear loader + empty state
+    panel.querySelectorAll('.kit-card, .meta-bar, .output-actions').forEach(e => e.remove());
+    document.getElementById('loadingCard').style.display = 'none';
+    document.getElementById('emptyState').style.display = 'none';
+
+    // Meta bar
+    const meta = document.createElement('div');
+    meta.className = 'meta-bar';
+    const s = data.summary;
+    meta.innerHTML = `
+      <div class="meta-item"><span class="meta-label">Role</span><span class="meta-value">${s.role}</span></div>
+      <div class="meta-item"><span class="meta-label">Domain</span><span class="meta-value">${s.domain}</span></div>
+      <div class="meta-item"><span class="meta-label">Experience</span><span class="meta-value">${s.yoe} yrs</span></div>
+      <div class="meta-item"><span class="meta-label">Round</span><span class="meta-value">${s.round}</span></div>
+      <div class="meta-item"><span class="meta-label">Difficulty</span><span class="meta-value">${s.difficulty}</span></div>
+      <div class="meta-item"><span class="meta-label">Company</span><span class="meta-value">${s.company}</span></div>
+    `;
+    panel.appendChild(meta);
+
+    // Action buttons
+    const actions = document.createElement('div');
+    actions.className = 'output-actions';
+    actions.innerHTML = `
+      <button class="act-btn" onclick="window.print()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Print / Save PDF
+      </button>
+      <button class="act-btn" onclick="generateKit()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        Regenerate
+      </button>
+    `;
+    panel.appendChild(actions);
+
+    // Questions card
+    const qMeta = sectionMeta.questions;
+    const qCard = document.createElement('div');
+    qCard.className = 'kit-card';
+    qCard.style.animationDelay = '0ms';
+    const qItems = data.questions.map((q, i) => {
+      const cat = catColors[q.category] || catColors['Technical'];
+      const dif = diffColors[q.difficulty] || diffColors['Medium'];
+      return `
+        <li class="q-item">
+          <div class="q-num" style="background:${cat.bg};color:${cat.color}">${i+1}</div>
+          <div class="q-text">
+            ${q.text}
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;">
+              <span class="q-tag" style="background:${cat.bg};color:${cat.color}">${q.category}</span>
+              <span class="q-tag" style="background:${dif.bg};color:${dif.color}">${q.difficulty}</span>
+            </div>
+            ${q.hint ? `<div style="font-size:12px;color:var(--ink-3);margin-top:5px;font-style:italic;">💬 ${q.hint}</div>` : ''}
+            <div class="q-actions">
+              <button class="q-btn" onclick="copyText(this, \`${q.text.replace(/`/g,'\\`')}\`)">Copy Q</button>
+            </div>
+          </div>
+        </li>`;
+    }).join('');
+    qCard.innerHTML = `
+      <div class="kit-card-header" onclick="toggleCard(this.closest('.kit-card'))">
+        <div class="kit-card-header-left">
+          <div class="kit-card-icon" style="background:${qMeta.colorBg}">${qMeta.icon}</div>
+          <div>
+            <div class="kit-card-title">${qMeta.title}</div>
+            <div class="kit-card-sub">${data.questions.length} questions · ${data.summary.round} · ${data.summary.difficulty}</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="kit-card-count" style="background:${qMeta.colorBg};color:${qMeta.colorText}">${data.questions.length}</span>
+          <span class="collapse-icon">▾</span>
+        </div>
+      </div>
+      <div class="kit-card-body"><ul class="q-list">${qItems}</ul></div>`;
+    panel.appendChild(qCard);
+
+    // Other sections
+    const sections = ['answer_frameworks','key_concepts','dos_donts','sample_answers','preparation_plan'];
+    sections.forEach((key, idx) => {
+      if (!data[key]) return;
+      const m = sectionMeta[key];
+      const card = document.createElement('div');
+      card.className = 'kit-card';
+      card.style.animationDelay = `${(idx+1)*60}ms`;
+      const htmlContent = marked.parse(data[key]);
+      card.innerHTML = `
+        <div class="kit-card-header" onclick="toggleCard(this.closest('.kit-card'))">
+          <div class="kit-card-header-left">
+            <div class="kit-card-icon" style="background:${m.colorBg}">${m.icon}</div>
+            <div>
+              <div class="kit-card-title">${m.title}</div>
+            </div>
+          </div>
+          <span class="collapse-icon">▾</span>
+        </div>
+        <div class="kit-card-body">
+          <div class="kit-content">${htmlContent}</div>
+        </div>`;
+      panel.appendChild(card);
+    });
+  }
+
+  // ── Main generate function ─────────────────────
+  async function generateKit() {
+    const inp = getInputs();
+
+    if (!inp.jobTitle) { alert('Please enter the job title.'); return; }
+    if (!inp.domain)   { alert('Please select a domain.'); return; }
+    if (!inp.yoe)      { alert('Please select your experience level.'); return; }
+
+    const btn = document.getElementById('genBtn');
+    const panel = document.getElementById('outputPanel');
+
+    // Show loading
+    btn.disabled = true;
+    btn.innerHTML = `<div style="width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;"></div> Generating…`;
+
+    document.getElementById('emptyState').style.display = 'none';
+    panel.querySelectorAll('.kit-card,.meta-bar,.output-actions').forEach(e => e.remove());
+    const lc = document.getElementById('loadingCard');
+    lc.style.display = 'block';
+    animateLoading();
+
+    try {
+      const response = await fetch('/prep_kit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(inp)
+      });
+      const data = await response.json();
+        }
+      }
+</script>
+
+</body>
+</html>
